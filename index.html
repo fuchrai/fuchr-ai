@@ -158,7 +158,9 @@
     line-height: 1.6;
     overflow-x: hidden;
     cursor: none;
+    padding-top: 0;
   }
+  @media (hover: none) { body { cursor: default; } }
 
   /* ── CUSTOM CURSOR ─────────────────────────────────────────── */
   #cursor {
@@ -204,14 +206,17 @@
 
   /* ── NAV ───────────────────────────────────────────────────── */
   nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 1000;
     display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: nowrap;
     padding: 0 48px;
     height: 68px;
-    background: rgba(6,8,16,0.7);
+    background: rgba(6,8,16,0.9);
     backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--border);
     transition: background 0.3s;
+    box-sizing: border-box;
   }
   .nav-logo {
     font-family: var(--font-display);
@@ -1193,65 +1198,61 @@
 <footer aria-label="Site footer" style="padding:0; border-top:1px solid var(--border); background:var(--bg);">
 
   <!-- Main footer grid -->
-  <div style="max-width:1300px; margin:0 auto; padding:64px 80px 48px; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:60px;">
+  <div style="max-width:1300px; margin:0 auto; padding:64px 80px 48px; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; box-sizing:border-box;">
 
     <!-- Brand col -->
     <div>
-      <div style="font-family:var(--font-display); font-size:22px; font-weight:800; color:var(--white); letter-spacing:-0.5px; margin-bottom:14px;">
-        fuchr<span style="color:var(--accent)">.</span>ai
+      <div style="font-family:'Syne',sans-serif; font-size:22px; font-weight:800; color:#f4f6fa; letter-spacing:-0.5px; margin-bottom:14px;">
+        fuchr<span style="color:#3d7eff;">.</span>ai
       </div>
-      <p style="font-size:13px; color:var(--muted); line-height:1.8; max-width:280px; margin-bottom:20px;">
+      <p style="font-size:13px; color:#6b7590; line-height:1.8; max-width:280px; margin-bottom:12px;">
         AI consulting and transformation company. We help businesses find where AI creates real leverage — and build it.
       </p>
-      <a href="mailto:hello@fuchr.ai" style="font-size:13px; color:var(--accent); text-decoration:none; font-family:var(--font-mono);">hello@fuchr.ai</a>
+      <a href="mailto:hello@fuchr.ai" style="display:block; font-size:13px; color:#3d7eff; text-decoration:none; margin-bottom:6px;">hello@fuchr.ai</a>
+      <a href="tel:+917077703170" style="display:block; font-size:13px; color:#3d7eff; text-decoration:none;">+91 70777 03170</a>
     </div>
 
     <!-- Services col -->
     <div>
-      <div style="font-size:11px; font-family:var(--font-mono); color:var(--muted2); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:18px;">Services</div>
-      <nav aria-label="Footer services navigation">
-        <ul style="list-style:none; display:flex; flex-direction:column; gap:10px;">
-          <li><a href="#services" style="font-size:13px; color:var(--muted); text-decoration:none; transition:color 0.2s; cursor:none;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">AI Product Development</a></li>
-          <li><a href="#services" style="font-size:13px; color:var(--muted); text-decoration:none; transition:color 0.2s; cursor:none;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">AI Transformation</a></li>
-          <li><a href="#services" style="font-size:13px; color:var(--muted); text-decoration:none; transition:color 0.2s; cursor:none;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">Idea to Product</a></li>
-          <li><a href="#services" style="font-size:13px; color:var(--muted); text-decoration:none; transition:color 0.2s; cursor:none;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">AI Engineering</a></li>
-          <li><a href="#services" style="font-size:13px; color:var(--muted); text-decoration:none; transition:color 0.2s; cursor:none;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">AI Governance &amp; Security</a></li>
-          <li><a href="#services" style="font-size:13px; color:var(--muted); text-decoration:none; transition:color 0.2s; cursor:none;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">AI Employee Training</a></li>
-        </ul>
-      </nav>
+      <div style="font-size:11px; color:#4a5068; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:18px; font-weight:500;">Services</div>
+      <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
+        <li><a href="#services" style="font-size:13px; color:#6b7590; text-decoration:none;">AI Transformation</a></li>
+        <li><a href="#services" style="font-size:13px; color:#6b7590; text-decoration:none;">AI Product Development</a></li>
+        <li><a href="#services" style="font-size:13px; color:#6b7590; text-decoration:none;">AI Training</a></li>
+        <li><a href="#services" style="font-size:13px; color:#6b7590; text-decoration:none;">AI Engineering</a></li>
+        <li><a href="#services" style="font-size:13px; color:#6b7590; text-decoration:none;">AI Governance</a></li>
+      </ul>
     </div>
 
     <!-- Industries col -->
     <div>
-      <div style="font-size:11px; font-family:var(--font-mono); color:var(--muted2); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:18px;">Industries</div>
-      <ul style="list-style:none; display:flex; flex-direction:column; gap:10px;">
-        <li style="font-size:13px; color:var(--muted);">Financial Services</li>
-        <li style="font-size:13px; color:var(--muted);">Manufacturing &amp; Industrial</li>
-        <li style="font-size:13px; color:var(--muted);">Healthcare &amp; Pharma</li>
-        <li style="font-size:13px; color:var(--muted);">Retail &amp; E-commerce</li>
-        <li style="font-size:13px; color:var(--muted);">Legal &amp; Compliance</li>
-        <li style="font-size:13px; color:var(--muted);">Logistics &amp; Supply Chain</li>
+      <div style="font-size:11px; color:#4a5068; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:18px; font-weight:500;">Industries</div>
+      <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
+        <li style="font-size:13px; color:#6b7590;">Financial Services</li>
+        <li style="font-size:13px; color:#6b7590;">Manufacturing</li>
+        <li style="font-size:13px; color:#6b7590;">Healthcare</li>
+        <li style="font-size:13px; color:#6b7590;">Retail &amp; E-commerce</li>
+        <li style="font-size:13px; color:#6b7590;">Legal &amp; Compliance</li>
+        <li style="font-size:13px; color:#6b7590;">Logistics</li>
       </ul>
     </div>
 
     <!-- Company col -->
     <div>
-      <div style="font-size:11px; font-family:var(--font-mono); color:var(--muted2); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:18px;">Company</div>
-      <nav aria-label="Footer company navigation">
-        <ul style="list-style:none; display:flex; flex-direction:column; gap:10px;">
-          <li><a href="#about" style="font-size:13px; color:var(--muted); text-decoration:none; cursor:none;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">About Us</a></li>
-          <li><a href="#process" style="font-size:13px; color:var(--muted); text-decoration:none; cursor:none;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">How We Work</a></li>
-          <li><a href="#contact" style="font-size:13px; color:var(--muted); text-decoration:none; cursor:none;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">Book a Free Call</a></li>
-          <li><a href="mailto:hello@fuchr.ai" style="font-size:13px; color:var(--muted); text-decoration:none; cursor:none;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">Contact</a></li>
-        </ul>
-      </nav>
+      <div style="font-size:11px; color:#4a5068; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:18px; font-weight:500;">Company</div>
+      <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
+        <li><a href="#about" style="font-size:13px; color:#6b7590; text-decoration:none;">About Us</a></li>
+        <li><a href="#process" style="font-size:13px; color:#6b7590; text-decoration:none;">How We Work</a></li>
+        <li><a href="#contact" style="font-size:13px; color:#6b7590; text-decoration:none;">Book a Free Call</a></li>
+        <li><a href="mailto:hello@fuchr.ai" style="font-size:13px; color:#6b7590; text-decoration:none;">Contact</a></li>
+      </ul>
     </div>
   </div>
 
   <!-- SEO keyword strip -->
-  <div style="border-top:1px solid var(--border); padding:20px 80px; max-width:1300px; margin:0 auto;">
-    <p style="font-size:11px; color:var(--muted2); line-height:2; font-family:var(--font-mono);">
-      <strong style="color:var(--muted); font-weight:500;">Keywords:</strong>
+  <div style="border-top:1px solid rgba(255,255,255,0.07); padding:16px 80px; max-width:1300px; margin:0 auto; box-sizing:border-box;">
+    <p style="font-size:11px; color:#4a5068; line-height:2;">
+      <strong style="color:#6b7590; font-weight:500;">Keywords:</strong>
       AI consulting company &nbsp;·&nbsp; AI transformation services &nbsp;·&nbsp; AI product development &nbsp;·&nbsp; enterprise AI consulting India &nbsp;·&nbsp;
       generative AI consulting &nbsp;·&nbsp; LLM engineering &nbsp;·&nbsp; RAG systems &nbsp;·&nbsp; agentic AI &nbsp;·&nbsp;
       AI strategy consulting &nbsp;·&nbsp; AI governance &nbsp;·&nbsp; AI readiness assessment &nbsp;·&nbsp;
@@ -1263,16 +1264,17 @@
   </div>
 
   <!-- Bottom bar -->
-  <div style="border-top:1px solid var(--border); padding:20px 80px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
-    <div style="font-size:12px; color:var(--muted2); font-family:var(--font-mono);">© 2026 Fuchr AI Consulting &amp; Services. All rights reserved.</div>
+  <div style="border-top:1px solid rgba(255,255,255,0.07); padding:20px 80px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; box-sizing:border-box;">
+    <div style="font-size:12px; color:#4a5068;">© 2026 Fuchr AI Consulting &amp; Services. All rights reserved.</div>
     <div style="display:flex; gap:24px; align-items:center;">
-      <a href="/sitemap.xml" style="font-size:12px; color:var(--muted2); text-decoration:none; font-family:var(--font-mono); cursor:none;" onmouseover="this.style.color='var(--muted)'" onmouseout="this.style.color='var(--muted2)'">Sitemap</a>
-      <a href="/privacy" style="font-size:12px; color:var(--muted2); text-decoration:none; font-family:var(--font-mono); cursor:none;" onmouseover="this.style.color='var(--muted)'" onmouseout="this.style.color='var(--muted2)'">Privacy Policy</a>
-      <span style="font-size:12px; color:var(--muted2); font-family:var(--font-mono);">Made in India 🇮🇳</span>
+      <a href="/sitemap.xml" style="font-size:12px; color:#4a5068; text-decoration:none;">Sitemap</a>
+      <a href="/privacy" style="font-size:12px; color:#4a5068; text-decoration:none;">Privacy Policy</a>
+      <span style="font-size:12px; color:#4a5068;">Made in India 🇮🇳</span>
     </div>
   </div>
 
 </footer>
+
 
 <script>
   // ── CURSOR ──────────────────────────────────────────────────
