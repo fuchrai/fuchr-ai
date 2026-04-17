@@ -812,7 +812,68 @@
     .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
   }
 
-  /* ── TERMINAL TICKER ───────────────────────────────────────── */
+  /* ── SERVICES CAROUSEL (mobile only) ──────────────────────── */
+  .service-carousel-wrap {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    /* Hide desktop grid, show carousel */
+    .service-grid { display: none !important; }
+    .service-carousel-wrap { display: block; margin-top: 40px; }
+
+    .service-carousel {
+      display: flex;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 16px;
+      padding: 0 20px 20px;
+      margin: 0 -20px;
+    }
+    .service-carousel::-webkit-scrollbar { display: none; }
+
+    .service-carousel-card {
+      flex: 0 0 80vw;
+      max-width: 300px;
+      scroll-snap-align: center;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      padding: 28px 24px;
+      position: relative;
+    }
+    .service-carousel-card:first-child { margin-left: 10vw; }
+    .service-carousel-card:last-child { margin-right: 10vw; }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .carousel-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--border2);
+      transition: background 0.3s, width 0.3s;
+    }
+    .carousel-dot.active {
+      background: var(--accent);
+      width: 20px;
+      border-radius: 3px;
+    }
+
+    /* Fix contact section on mobile */
+    .contact-grid {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 48px !important;
+    }
+    section#contact {
+      padding: 60px 20px !important;
+    }
+  }
   .ticker-wrap {
     background: var(--bg);
     border-top: 1px solid var(--border);
@@ -1038,11 +1099,74 @@
         <a href="#contact" class="btn-primary" style="font-size:13px; padding:11px 22px;">Book a Free Call →</a>
       </div>
 
-    </div>
-  </div>
-</section>
+    </div><!-- end service-grid -->
 
-<!-- WHO WE ARE -->
+    <!-- MOBILE CAROUSEL (shown only on mobile) -->
+    <div class="service-carousel-wrap">
+      <div class="service-carousel" id="serviceCarousel">
+
+        <div class="service-carousel-card">
+          <div style="font-size:11px; color:var(--muted2); margin-bottom:20px;">01</div>
+          <div style="width:48px; height:48px; border-radius:12px; background:rgba(0,212,170,0.1); display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:18px;">🔄</div>
+          <h3 style="font-family:var(--font-display); font-size:18px; font-weight:700; margin-bottom:10px; letter-spacing:-0.01em;">AI Transformation</h3>
+          <p style="font-size:13px; color:var(--muted); line-height:1.7;">We enter your organisation, map your processes, identify AI opportunities, and build solutions — from pilot to full deployment.</p>
+          <a href="#contact" style="display:inline-flex; align-items:center; gap:6px; margin-top:20px; font-size:13px; font-weight:500; color:var(--accent); text-decoration:none;">Get started →</a>
+        </div>
+
+        <div class="service-carousel-card">
+          <div style="font-size:11px; color:var(--muted2); margin-bottom:20px;">02</div>
+          <div style="width:48px; height:48px; border-radius:12px; background:rgba(61,126,255,0.1); display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:18px;">🧩</div>
+          <h3 style="font-family:var(--font-display); font-size:18px; font-weight:700; margin-bottom:10px; letter-spacing:-0.01em;">AI Product Development</h3>
+          <p style="font-size:13px; color:var(--muted); line-height:1.7;">Got an AI product idea? We sit with you as product co-pilots — defining the MVP, making decisions, and building the full product.</p>
+          <a href="#contact" style="display:inline-flex; align-items:center; gap:6px; margin-top:20px; font-size:13px; font-weight:500; color:var(--accent); text-decoration:none;">Get started →</a>
+        </div>
+
+        <div class="service-carousel-card">
+          <div style="font-size:11px; color:var(--muted2); margin-bottom:20px;">03</div>
+          <div style="width:48px; height:48px; border-radius:12px; background:rgba(0,212,170,0.1); display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:18px;">🎓</div>
+          <h3 style="font-family:var(--font-display); font-size:18px; font-weight:700; margin-bottom:10px; letter-spacing:-0.01em;">AI Training</h3>
+          <p style="font-size:13px; color:var(--muted); line-height:1.7;">We train your team to use AI effectively in their daily work — so they become AI-native. No technical background needed.</p>
+          <a href="#contact" style="display:inline-flex; align-items:center; gap:6px; margin-top:20px; font-size:13px; font-weight:500; color:var(--accent); text-decoration:none;">Get started →</a>
+        </div>
+
+        <div class="service-carousel-card">
+          <div style="font-size:11px; color:var(--muted2); margin-bottom:20px;">04</div>
+          <div style="width:48px; height:48px; border-radius:12px; background:rgba(255,107,53,0.1); display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:18px;">🚀</div>
+          <h3 style="font-family:var(--font-display); font-size:18px; font-weight:700; margin-bottom:10px; letter-spacing:-0.01em;">Idea to Product</h3>
+          <p style="font-size:13px; color:var(--muted); line-height:1.7;">You have an idea. We validate it, design the solution, build the MVP, and take it to market. End-to-end, start to launch.</p>
+          <a href="#contact" style="display:inline-flex; align-items:center; gap:6px; margin-top:20px; font-size:13px; font-weight:500; color:var(--accent); text-decoration:none;">Get started →</a>
+        </div>
+
+        <div class="service-carousel-card">
+          <div style="font-size:11px; color:var(--muted2); margin-bottom:20px;">05</div>
+          <div style="width:48px; height:48px; border-radius:12px; background:rgba(168,85,247,0.1); display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:18px;">⚙️</div>
+          <h3 style="font-family:var(--font-display); font-size:18px; font-weight:700; margin-bottom:10px; letter-spacing:-0.01em;">AI Engineering</h3>
+          <p style="font-size:13px; color:var(--muted); line-height:1.7;">Deep AI for manufacturing, retail, logistics. Predictive maintenance, computer vision, supply chain intelligence.</p>
+          <a href="#contact" style="display:inline-flex; align-items:center; gap:6px; margin-top:20px; font-size:13px; font-weight:500; color:var(--accent); text-decoration:none;">Get started →</a>
+        </div>
+
+        <div class="service-carousel-card">
+          <div style="font-size:11px; color:var(--muted2); margin-bottom:20px;">06</div>
+          <div style="width:48px; height:48px; border-radius:12px; background:rgba(251,191,36,0.1); display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:18px;">🛡️</div>
+          <h3 style="font-family:var(--font-display); font-size:18px; font-weight:700; margin-bottom:10px; letter-spacing:-0.01em;">AI Readiness &amp; Governance</h3>
+          <p style="font-size:13px; color:var(--muted); line-height:1.7;">AI readiness audits, data strategy, security assessment, compliance frameworks for regulated industries.</p>
+          <a href="#contact" style="display:inline-flex; align-items:center; gap:6px; margin-top:20px; font-size:13px; font-weight:500; color:var(--accent); text-decoration:none;">Get started →</a>
+        </div>
+
+      </div>
+      <!-- Dots -->
+      <div class="carousel-dots" id="carouselDots">
+        <div class="carousel-dot active"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+      </div>
+    </div>
+
+  </div><!-- end services-inner -->
+</section>
 <section class="who" id="about">
   <div class="who-inner">
     <div class="who-visual">
@@ -1134,64 +1258,9 @@
   </div>
 </section>
 
-<!-- TRAINING SECTION -->
-<section style="padding:120px 80px; border-top:1px solid var(--border); max-width:1300px; margin:0 auto;">
-  <div class="section-eyebrow">AI Training</div>
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;">
-    <div>
-      <h2 class="section-title">We make your<br>people <em>AI-native.</em></h2>
-      <p style="font-size:17px; color:var(--muted); line-height:1.8; margin-bottom:16px;">
-        Your team is spending hours every week on things AI can do in seconds. We train your employees — from the shop floor to the boardroom — to use AI as a daily tool, not a scary technology.
-      </p>
-      <p style="font-size:17px; color:var(--muted); line-height:1.8; margin-bottom:32px;">
-        Solve your daily hustles at the tip of a finger. Drafting, analysing, reporting, communicating — done in moments. No technical background required.
-      </p>
-      <a href="#contact" class="btn-primary" style="display:inline-flex;">
-        Train My Team
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </div>
-    <div style="display:grid; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:16px; overflow:hidden;">
-      <div style="background:var(--bg2); padding:32px 36px;">
-        <div style="font-family:var(--font-mono); font-size:10px; color:var(--muted2); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:16px;">What your team will be able to do</div>
-        <div style="display:flex; flex-direction:column; gap:14px;">
-          <div style="display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid var(--border);">
-            <span style="font-size:20px;">⚡</span>
-            <div>
-              <div style="font-size:14px; font-weight:500; color:var(--white); margin-bottom:2px;">Automate repetitive tasks</div>
-              <div style="font-size:12px; color:var(--muted);">Reports, summaries, emails — done in seconds</div>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid var(--border);">
-            <span style="font-size:20px;">🧠</span>
-            <div>
-              <div style="font-size:14px; font-weight:500; color:var(--white); margin-bottom:2px;">Make better decisions faster</div>
-              <div style="font-size:12px; color:var(--muted);">Analyse data, spot patterns, act with confidence</div>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid var(--border);">
-            <span style="font-size:20px;">💬</span>
-            <div>
-              <div style="font-size:14px; font-weight:500; color:var(--white); margin-bottom:2px;">Communicate at a higher level</div>
-              <div style="font-size:12px; color:var(--muted);">Proposals, client emails, internal docs — elevated</div>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:14px; padding:12px 0;">
-            <span style="font-size:20px;">🔧</span>
-            <div>
-              <div style="font-size:14px; font-weight:500; color:var(--white); margin-bottom:2px;">Solve problems independently</div>
-              <div style="font-size:12px; color:var(--muted);">No tech background needed. Just results.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- CONTACT FORM -->
 <section style="padding:120px 80px; background:var(--bg2); border-top:1px solid var(--border);" id="contact">
-  <div style="max-width:1300px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:start;">
+  <div style="max-width:1300px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:start;" class="contact-grid">
 
     <!-- Left side -->
     <div>
@@ -1446,6 +1515,18 @@
     });
   }
 
+  // ── SERVICES CAROUSEL DOTS ──────────────────────────────────
+  const carousel = document.getElementById('serviceCarousel');
+  const dots = document.querySelectorAll('.carousel-dot');
+  if (carousel && dots.length) {
+    carousel.addEventListener('scroll', () => {
+      const cards = carousel.querySelectorAll('.service-carousel-card');
+      if (!cards.length) return;
+      const cardWidth = cards[0].offsetWidth + 16;
+      const active = Math.min(Math.round(carousel.scrollLeft / cardWidth), dots.length - 1);
+      dots.forEach((d, i) => d.classList.toggle('active', i === active));
+    });
+  }
 
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
