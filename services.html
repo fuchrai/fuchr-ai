@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services — Fuchr.ai | Custom AI Systems</title>
+  <meta name="description" content="Fuchr builds custom AI systems for real business workflows — voice AI, multi-agent systems, private AI, and AI-native tools. Not templates. Not buzzwords.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg:       #F6F3EC;
+    --bg2:      #EDE8DE;
+    --surface:  #E5DFD3;
+    --border:   #D9D4C7;
+    --border2:  #C8C2B5;
+    --ink:      #17171A;
+    --muted:    #5B5B63;
+    --muted2:   #AFAFB4;
+    --accent:   #B8442C;
+    --accent2:  #9B6B50;
+    --dark-card:#2A2A2D;
+    --font-display: Arial, Helvetica, sans-serif;
+    --font-body:    system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono:    'DM Mono', monospace;
+  }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+  @media (hover: none) { body { cursor: default; } }
+
+  /* CURSOR */
+  #cursor {
+    width: 8px; height: 8px; background: var(--accent);
+    border-radius: 50%; position: fixed; pointer-events: none;
+    z-index: 9999; transform: translate(-50%,-50%);
+    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+  }
+  #cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(61,126,255,0.4);
+    border-radius: 50%; position: fixed; pointer-events: none;
+    z-index: 9998; transform: translate(-50%,-50%);
+    transition: transform 0.18s ease-out, width 0.3s, height 0.3s, border-color 0.3s;
+  }
+  body:has(a:hover) #cursor { width: 12px; height: 12px; background: var(--accent2); }
+  body:has(a:hover) #cursor-ring { width: 50px; height: 50px; border-color: rgba(184,68,44,0.4); }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 68px;
+    background: rgba(246,243,236,0.92);
+    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s; box-sizing: border-box;
+  }
+  .nav-logo {
+    font-family: var(--font-display); font-size: 22px; font-weight: 800;
+    letter-spacing: -0.5px; color: var(--ink); text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-logo-dot {
+    width: 28px; height: 16px;
+    border-radius: 100px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  }
+  .nav-links { display: flex; align-items: center; gap: 36px; }
+  .nav-links a {
+    font-size: 13.5px; font-weight: 400; color: var(--muted);
+    text-decoration: none; letter-spacing: 0.02em;
+    transition: color 0.2s; cursor: none;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a.active { color: var(--accent); }
+  .nav-cta {
+    padding: 9px 22px; border: 1px solid var(--border2); border-radius: 6px;
+    font-size: 13px; font-weight: 500; color: var(--ink) !important;
+    background: rgba(255,255,255,0.04);
+    transition: background 0.2s, border-color 0.2s !important;
+  }
+  .nav-cta:hover { background: rgba(184,68,44,0.10) !important; border-color: var(--accent) !important; }
+  .burger { display: none; }
+
+  /* MOBILE MENU */
+  .mobile-menu {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(246,243,236,0.99); backdrop-filter: blur(20px);
+    flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: var(--font-display); font-size: 28px; font-weight: 700;
+    color: var(--muted); text-decoration: none; padding: 12px 24px;
+    letter-spacing: -0.02em; transition: color 0.2s; cursor: none;
+  }
+  .mobile-menu a:hover { color: var(--ink); }
+  .mobile-menu .mobile-cta {
+    margin-top: 24px; padding: 14px 36px;
+    background: var(--accent); color: #fff !important; border-radius: 8px;
+    font-size: 18px;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* PAGE HERO */
+  .page-hero {
+    padding: 140px 80px 96px;
+    max-width: 1300px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end;
+    box-sizing: border-box;
+  }
+  .page-hero-left { animation: fadeUp 0.7s ease both; }
+  .page-hero-right { animation: fadeUp 0.7s ease 0.15s both; }
+  .page-eyebrow {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    color: var(--muted2); letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+  }
+  .page-eyebrow::before {
+    content: ''; display: block; width: 24px; height: 1px; background: var(--accent);
+  }
+  .page-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 700; line-height: 1.1; letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+  .page-hero h1 em { font-style: normal; color: var(--accent); }
+  .page-hero-right p {
+    font-size: 17px; color: var(--muted); line-height: 1.75;
+    margin-bottom: 32px;
+  }
+  .proof-chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .chip {
+    font-size: 12px; font-family: var(--font-mono); color: var(--muted);
+    border: 1px solid var(--border2); border-radius: 4px;
+    padding: 5px 12px; background: var(--bg2);
+    letter-spacing: 0.04em;
+  }
+  .chip.accent {
+    border-color: rgba(184,68,44,0.3); color: var(--accent);
+    background: rgba(184,68,44,0.05);
+  }
+
+  /* DIVIDER */
+  .page-divider {
+    border: none; border-top: 1px solid var(--border);
+    max-width: 1300px; margin: 0 auto;
+  }
+
+  /* SERVICE GRID */
+  .services-section {
+    padding: 96px 80px;
+    max-width: 1300px; margin: 0 auto; box-sizing: border-box;
+  }
+  .services-section-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 56px;
+  }
+  .section-label {
+    font-family: var(--font-mono); font-size: 11px; color: var(--muted2);
+    letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .section-count {
+    font-family: var(--font-mono); font-size: 11px; color: var(--muted2);
+    letter-spacing: 0.05em;
+  }
+  .service-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .service-card {
+    background: var(--bg);
+    padding: 40px 36px;
+    transition: background 0.2s;
+    position: relative;
+  }
+  .service-card:hover { background: var(--bg2); }
+  .service-number {
+    font-family: var(--font-mono); font-size: 11px; color: var(--muted2);
+    letter-spacing: 0.08em; margin-bottom: 28px;
+  }
+  .service-icon {
+    font-size: 28px; margin-bottom: 20px; display: block;
+  }
+  .service-name {
+    font-family: var(--font-display); font-size: 19px; font-weight: 700;
+    color: var(--ink); line-height: 1.25; letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .service-desc {
+    font-size: 14px; color: var(--muted); line-height: 1.7;
+    margin-bottom: 28px;
+  }
+  .service-includes {
+    margin-bottom: 24px;
+  }
+  .service-includes-label {
+    font-family: var(--font-mono); font-size: 10px; color: var(--muted2);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .service-includes ul {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .service-includes ul li {
+    font-size: 13px; color: var(--muted); line-height: 1.5;
+    padding-left: 14px; position: relative;
+  }
+  .service-includes ul li::before {
+    content: '—'; position: absolute; left: 0;
+    color: var(--accent); font-size: 11px;
+  }
+  .service-examples {
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .service-examples-label {
+    font-family: var(--font-mono); font-size: 10px; color: var(--muted2);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .example-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .example-tag {
+    font-size: 11.5px; color: var(--muted2); background: var(--bg2);
+    border: 1px solid var(--border); border-radius: 3px;
+    padding: 3px 10px;
+  }
+
+  /* VOICE FEATURE — full-width dark card */
+  .voice-feature {
+    background: var(--dark-card); color: #fff;
+    grid-column: 1 / -1;
+    padding: 48px 36px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+  }
+  .voice-feature .service-name { color: #fff; }
+  .voice-feature .service-desc { color: rgba(255,255,255,0.6); }
+  .voice-feature .service-number { color: rgba(255,255,255,0.3); }
+  .voice-feature .service-includes-label { color: rgba(255,255,255,0.35); }
+  .voice-feature .service-includes ul li { color: rgba(255,255,255,0.65); }
+  .voice-feature .service-includes ul li::before { color: var(--accent); }
+  .voice-feature .service-examples { border-top-color: rgba(255,255,255,0.1); }
+  .voice-feature .service-examples-label { color: rgba(255,255,255,0.35); }
+  .voice-feature .example-tag {
+    background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.55);
+  }
+  .voice-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(184,68,44,0.15); border: 1px solid rgba(184,68,44,0.3);
+    border-radius: 4px; padding: 6px 14px;
+    font-family: var(--font-mono); font-size: 11px; color: #e8896a;
+    letter-spacing: 0.08em; margin-bottom: 20px;
+  }
+  .voice-badge::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); display: block;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  /* WHY FUCHR STRIP */
+  .why-strip {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 80px;
+    box-sizing: border-box;
+  }
+  .why-strip-inner {
+    max-width: 1300px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
+  }
+  .why-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700; letter-spacing: -0.03em; line-height: 1.2;
+    color: var(--ink);
+  }
+  .why-title em { font-style: normal; color: var(--accent); }
+  .why-points {
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .why-point {
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .why-point-icon {
+    width: 32px; height: 32px; min-width: 32px;
+    border-radius: 6px; background: var(--bg);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .why-point-text strong {
+    display: block; font-size: 14px; font-weight: 600; color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .why-point-text p { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+
+  /* CTA SECTION */
+  .cta-section {
+    padding: 96px 80px;
+    max-width: 1300px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 40px; box-sizing: border-box;
+  }
+  .cta-left h2 {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3vw, 40px);
+    font-weight: 700; letter-spacing: -0.03em; line-height: 1.2;
+    color: var(--ink); margin-bottom: 12px;
+  }
+  .cta-left p { font-size: 16px; color: var(--muted); }
+  .cta-buttons { display: flex; gap: 12px; flex-shrink: 0; }
+  .btn-primary {
+    padding: 14px 28px; background: var(--accent);
+    color: #fff; border-radius: 6px; font-size: 14px; font-weight: 600;
+    text-decoration: none; transition: opacity 0.2s; cursor: none;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-secondary {
+    padding: 14px 28px; border: 1px solid var(--border2);
+    color: var(--ink); border-radius: 6px; font-size: 14px; font-weight: 400;
+    text-decoration: none; transition: border-color 0.2s, background 0.2s;
+    background: transparent; cursor: none;
+  }
+  .btn-secondary:hover { border-color: var(--accent); background: rgba(184,68,44,0.04); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    nav { padding: 0 24px; }
+    .nav-links { gap: 20px; }
+    .page-hero { padding: 120px 40px 72px; grid-template-columns: 1fr; gap: 40px; }
+    .services-section { padding: 72px 40px; }
+    .service-grid { grid-template-columns: 1fr 1fr; }
+    .voice-feature { grid-template-columns: 1fr; }
+    .why-strip { padding: 64px 40px; }
+    .why-strip-inner { grid-template-columns: 1fr; gap: 40px; }
+    .cta-section { padding: 72px 40px; flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 768px) {
+    html, body { overflow-x: hidden; max-width: 100vw; }
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .burger {
+      display: flex; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 8px; z-index: 1001;
+      background: none; border: none;
+    }
+    .burger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--ink); border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .page-hero { padding: 100px 24px 56px; }
+    .services-section { padding: 56px 24px; }
+    .service-grid { grid-template-columns: 1fr; }
+    .service-card { padding: 32px 24px; }
+    .voice-feature { grid-template-columns: 1fr; }
+    .why-strip { padding: 56px 24px; }
+    .cta-section { padding: 56px 24px; }
+    .cta-buttons { flex-direction: column; width: 100%; }
+    .btn-primary, .btn-secondary { text-align: center; }
+    footer div[style*="padding:64px 80px"] { padding: 48px 24px 36px !important; grid-template-columns: 1fr !important; }
+    footer div[style*="padding:16px 80px"] { padding: 16px 24px !important; }
+    footer div[style*="padding:20px 80px"] { padding: 16px 24px !important; flex-direction: column !important; gap: 8px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<nav aria-label="Main navigation">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-dot"></div>
+    fuchr<span style="color:var(--accent)">.</span>ai
+  </a>
+  <div class="nav-links">
+    <a href="services.html" class="active">Services</a>
+    <a href="solutions.html">Solutions</a>
+    <a href="index.html#team">Team</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#contact" class="nav-cta">Book Free Call →</a>
+  </div>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation">
+  <a href="services.html">Services</a>
+  <a href="solutions.html">Solutions</a>
+  <a href="index.html#team">Team</a>
+  <a href="index.html#about">About</a>
+  <a href="index.html#contact" class="mobile-cta">Book Free Call →</a>
+</div>
+
+<main>
+
+<!-- PAGE HERO -->
+<section class="page-hero" aria-label="Services hero">
+  <div class="page-hero-left">
+    <div class="page-eyebrow">What We Build</div>
+    <h1>Custom AI systems for <em>real</em> business workflows</h1>
+  </div>
+  <div class="page-hero-right">
+    <p>Fuchr designs and builds AI systems that automate work, improve support, accelerate growth, and create better customer experiences — from voice AI and multi-agent workflows to private on-prem assistants and AI-native products.</p>
+    <div class="proof-chips">
+      <span class="chip accent">Custom, not template-first</span>
+      <span class="chip">AI + product engineering</span>
+      <span class="chip">Public · Private · Hybrid stacks</span>
+      <span class="chip accent">Proprietary voice capability</span>
+    </div>
+  </div>
+</section>
+
+<hr class="page-divider">
+
+<!-- SERVICES -->
+<section class="services-section" aria-label="Service areas">
+  <div class="services-section-header">
+    <div class="section-label">Service Areas</div>
+    <div class="section-count">06 capabilities</div>
+  </div>
+
+  <div class="service-grid">
+
+    <!-- 01 Custom AI Systems -->
+    <div class="service-card">
+      <div class="service-number">01</div>
+      <span class="service-icon">⚙️</span>
+      <div class="service-name">Custom AI Systems</div>
+      <p class="service-desc">End-to-end AI for business workflows, customer journeys, and internal operations — built around your actual processes, not a generic template.</p>
+      <div class="service-includes">
+        <div class="service-includes-label">Includes</div>
+        <ul>
+          <li>Workflow automation</li>
+          <li>AI copilots &amp; internal assistants</li>
+          <li>Customer-facing AI systems</li>
+          <li>AI decision layers</li>
+          <li>Cross-tool orchestration</li>
+        </ul>
+      </div>
+      <div class="service-examples">
+        <div class="service-examples-label">Example use cases</div>
+        <div class="example-tags">
+          <span class="example-tag">Support automation</span>
+          <span class="example-tag">Sales workflows</span>
+          <span class="example-tag">Knowledge retrieval</span>
+          <span class="example-tag">Ops copilots</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 AI Tool & Product Development -->
+    <div class="service-card">
+      <div class="service-number">02</div>
+      <span class="service-icon">🛠️</span>
+      <div class="service-name">AI Tool &amp; Product Development</div>
+      <p class="service-desc">AI-native tools, internal platforms, and customer-facing AI products built around a specific workflow or user problem — not bolted on after the fact.</p>
+      <div class="service-includes">
+        <div class="service-includes-label">Includes</div>
+        <ul>
+          <li>Internal team tools &amp; dashboards</li>
+          <li>Multi-user AI workspaces</li>
+          <li>AI features inside existing software</li>
+          <li>Niche standalone AI tools</li>
+          <li>Team copilots (support, sales, ops)</li>
+        </ul>
+      </div>
+      <div class="service-examples">
+        <div class="service-examples-label">Example use cases</div>
+        <div class="example-tags">
+          <span class="example-tag">Ops platform</span>
+          <span class="example-tag">AI inside SaaS</span>
+          <span class="example-tag">Research tools</span>
+          <span class="example-tag">Multi-agent products</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 Multi-Agent Systems -->
+    <div class="service-card">
+      <div class="service-number">03</div>
+      <span class="service-icon">🕸️</span>
+      <div class="service-name">Multi-Agent Systems</div>
+      <p class="service-desc">Multi-agent workflows where specialized AI agents collaborate — planning, retrieving, reasoning, verifying, acting, and escalating — for complex business processes.</p>
+      <div class="service-includes">
+        <div class="service-includes-label">Includes</div>
+        <ul>
+          <li>Supervisor-agent orchestration</li>
+          <li>Planner + researcher + verifier systems</li>
+          <li>Specialist agents by role or department</li>
+          <li>Review / QA agents</li>
+          <li>Cross-tool routing with memory</li>
+        </ul>
+      </div>
+      <div class="service-examples">
+        <div class="service-examples-label">Example use cases</div>
+        <div class="example-tags">
+          <span class="example-tag">Support orchestration</span>
+          <span class="example-tag">Report generation</span>
+          <span class="example-tag">Lead enrichment</span>
+          <span class="example-tag">Enterprise assistants</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 Private AI / On-Prem -->
+    <div class="service-card">
+      <div class="service-number">04</div>
+      <span class="service-icon">🔒</span>
+      <div class="service-name">Private AI / On-Prem AI</div>
+      <p class="service-desc">Private AI systems for companies that need internal intelligence without sending sensitive business data outside their environment. Your data stays yours.</p>
+      <div class="service-includes">
+        <div class="service-includes-label">Includes</div>
+        <ul>
+          <li>On-prem assistants</li>
+          <li>Secure RAG over private documents</li>
+          <li>AI over private databases &amp; ERPs</li>
+          <li>Internal search and Q&amp;A</li>
+          <li>Department copilots (finance, HR, ops)</li>
+        </ul>
+      </div>
+      <div class="service-examples">
+        <div class="service-examples-label">Example use cases</div>
+        <div class="example-tags">
+          <span class="example-tag">ERP finance copilot</span>
+          <span class="example-tag">Policy assistant</span>
+          <span class="example-tag">Secure doc intelligence</span>
+          <span class="example-tag">Compliance AI</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 AI for Growth & Operations -->
+    <div class="service-card">
+      <div class="service-number">05</div>
+      <span class="service-icon">📈</span>
+      <div class="service-name">AI for Growth &amp; Operations</div>
+      <p class="service-desc">AI systems that improve conversion, follow-up, campaign execution, operational visibility, and the repetitive business motion that drains teams.</p>
+      <div class="service-includes">
+        <div class="service-includes-label">Includes</div>
+        <ul>
+          <li>Lead intake, scoring, and routing</li>
+          <li>Follow-up automation</li>
+          <li>Sales / admissions copilots</li>
+          <li>AI marketing workflows</li>
+          <li>Ops assistants &amp; dashboards</li>
+        </ul>
+      </div>
+      <div class="service-examples">
+        <div class="service-examples-label">Example use cases</div>
+        <div class="example-tags">
+          <span class="example-tag">Lead qualification</span>
+          <span class="example-tag">Campaign orchestration</span>
+          <span class="example-tag">Revenue ops</span>
+          <span class="example-tag">Nurture systems</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 Voice AI — full-width dark -->
+    <div class="service-card voice-feature">
+      <div>
+        <div class="service-number">06</div>
+        <div class="voice-badge">Proprietary capability</div>
+        <div class="service-name">Voice AI Systems</div>
+        <p class="service-desc">Real-time voice AI systems for support, lead qualification, outbound workflows, reminders, and conversational automation — built for low latency and human-like interaction where it matters.</p>
+      </div>
+      <div>
+        <div class="service-includes">
+          <div class="service-includes-label">Includes</div>
+          <ul>
+            <li>Inbound support voice agents</li>
+            <li>Outbound lead qualification</li>
+            <li>Appointment confirmation &amp; reminders</li>
+            <li>First-call automation</li>
+            <li>Cart abandonment recovery calls</li>
+            <li>Human handoff flows</li>
+            <li>Multilingual voice experiences</li>
+          </ul>
+        </div>
+        <div class="service-examples" style="border-top-color:rgba(255,255,255,0.1); margin-top:20px;">
+          <div class="service-examples-label">Example use cases</div>
+          <div class="example-tags">
+            <span class="example-tag">Support triage</span>
+            <span class="example-tag">Lead qualification</span>
+            <span class="example-tag">Payment reminders</span>
+            <span class="example-tag">Interview simulation</span>
+            <span class="example-tag">Demo booking</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY FUCHR -->
+<div class="why-strip">
+  <div class="why-strip-inner">
+    <div>
+      <div class="page-eyebrow" style="color:var(--muted2);">Why Fuchr</div>
+      <h2 class="why-title">Built by people<br>who <em>ship</em></h2>
+    </div>
+    <div class="why-points">
+      <div class="why-point">
+        <div class="why-point-icon">🔨</div>
+        <div class="why-point-text">
+          <strong>Custom systems, not prompt wrappers</strong>
+          <p>We design systems that fit your workflow — not generic AI features bolted onto a template.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-point-icon">🧠</div>
+        <div class="why-point-text">
+          <strong>AI engineering + product thinking</strong>
+          <p>The team combines deep technical capability with experience building real products for real users.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-point-icon">🔁</div>
+        <div class="why-point-text">
+          <strong>Right architecture for the workflow</strong>
+          <p>We work with public models, private models, multi-agent setups, and proprietary voice infrastructure — depending on what the job actually needs.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-point-icon">📐</div>
+        <div class="why-point-text">
+          <strong>Practical, not flashy</strong>
+          <p>We use the approach that works — not the one with the most buzzwords on the pitch deck.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section" aria-label="Contact CTA">
+  <div class="cta-left">
+    <h2>Have a use case in mind?</h2>
+    <p>Tell us what you're trying to build. We'll tell you honestly what's possible and what it takes.</p>
+  </div>
+  <div class="cta-buttons">
+    <a href="index.html#contact" class="btn-primary">Discuss Your Use Case →</a>
+    <a href="solutions.html" class="btn-secondary">See Solutions</a>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer aria-label="Site footer" style="padding:0; border-top:1px solid var(--border); background:var(--bg);">
+  <div style="max-width:1300px; margin:0 auto; padding:64px 80px 48px; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; box-sizing:border-box;">
+    <div>
+      <div class="nav-logo" style="margin-bottom:14px;">
+        <div class="nav-logo-dot"></div>
+        fuchr<span style="color:var(--accent)">.</span>ai
+      </div>
+      <p style="font-size:13px; color:#6b7590; line-height:1.8; max-width:280px; margin-bottom:12px;">Custom AI systems for real business workflows. Not generic. Not template-first.</p>
+      <a href="mailto:hello@fuchr.ai" style="display:block; font-size:13px; color:var(--accent); text-decoration:none; margin-bottom:6px;">hello@fuchr.ai</a>
+      <a href="tel:+917077703170" style="display:block; font-size:13px; color:var(--accent); text-decoration:none;">+91 70777 03170</a>
+    </div>
+    <div>
+      <div style="font-size:11px; color:#4a5068; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:18px; font-weight:500;">Services</div>
+      <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
+        <li><a href="services.html" style="font-size:13px; color:#6b7590; text-decoration:none;">Custom AI Systems</a></li>
+        <li><a href="services.html" style="font-size:13px; color:#6b7590; text-decoration:none;">Voice AI</a></li>
+        <li><a href="services.html" style="font-size:13px; color:#6b7590; text-decoration:none;">Multi-Agent Systems</a></li>
+        <li><a href="services.html" style="font-size:13px; color:#6b7590; text-decoration:none;">Private AI</a></li>
+        <li><a href="services.html" style="font-size:13px; color:#6b7590; text-decoration:none;">AI Products</a></li>
+      </ul>
+    </div>
+    <div>
+      <div style="font-size:11px; color:#4a5068; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:18px; font-weight:500;">Solutions</div>
+      <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
+        <li><a href="solutions.html" style="font-size:13px; color:#6b7590; text-decoration:none;">Customer Support AI</a></li>
+        <li><a href="solutions.html" style="font-size:13px; color:#6b7590; text-decoration:none;">Lead Qualification</a></li>
+        <li><a href="solutions.html" style="font-size:13px; color:#6b7590; text-decoration:none;">Marketing Operations</a></li>
+        <li><a href="solutions.html" style="font-size:13px; color:#6b7590; text-decoration:none;">Internal Assistants</a></li>
+        <li><a href="solutions.html" style="font-size:13px; color:#6b7590; text-decoration:none;">Workflow Automation</a></li>
+      </ul>
+    </div>
+    <div>
+      <div style="font-size:11px; color:#4a5068; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:18px; font-weight:500;">Company</div>
+      <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
+        <li><a href="index.html#about" style="font-size:13px; color:#6b7590; text-decoration:none;">About Us</a></li>
+        <li><a href="index.html#team" style="font-size:13px; color:#6b7590; text-decoration:none;">Team</a></li>
+        <li><a href="index.html#contact" style="font-size:13px; color:#6b7590; text-decoration:none;">Book a Free Call</a></li>
+        <li><a href="mailto:hello@fuchr.ai" style="font-size:13px; color:#6b7590; text-decoration:none;">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div style="border-top:1px solid var(--border); padding:20px 80px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; box-sizing:border-box;">
+    <div style="font-size:12px; color:#4a5068;">© 2026 Fuchr AI. All rights reserved.</div>
+    <div style="display:flex; gap:24px; align-items:center;">
+      <a href="index.html" style="font-size:12px; color:#4a5068; text-decoration:none;">Home</a>
+      <a href="/privacy" style="font-size:12px; color:#4a5068; text-decoration:none;">Privacy Policy</a>
+      <span style="font-size:12px; color:#4a5068;">Made in India 🇮🇳</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    setTimeout(() => {
+      ring.style.left = e.clientX + 'px';
+      ring.style.top = e.clientY + 'px';
+    }, 60);
+  });
+
+  // Burger menu
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  function toggleMenu(open) {
+    burger.classList.toggle('open', open);
+    mobileMenu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  burger.addEventListener('click', () => toggleMenu(!mobileMenu.classList.contains('open')));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
+  // Scroll nav
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 40
+      ? 'rgba(246,243,236,0.97)'
+      : 'rgba(246,243,236,0.92)';
+  });
+</script>
+</body>
+</html>
