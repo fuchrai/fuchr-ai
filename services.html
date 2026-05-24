@@ -61,6 +61,7 @@
   nav {
     position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 1000;
     display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: nowrap;
     padding: 0 48px; height: 68px;
     background: rgba(246,243,236,0.92);
     backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
@@ -77,8 +78,6 @@
     border-radius: 100px;
     background: var(--accent);
     flex-shrink: 0;
-  }
-
   }
   .nav-links { display: flex; align-items: center; gap: 36px; }
   .nav-links a {
@@ -407,16 +406,16 @@
 <div id="cursor-ring"></div>
 
 <nav aria-label="Main navigation">
-  <a href="index.html" class="nav-logo">
+  <a href="/" class="nav-logo">
     <div class="nav-logo-dot"></div>
     fuchr<span style="color:var(--accent)">.</span>ai
   </a>
   <div class="nav-links">
     <a href="/services" class="active">Services</a>
     <a href="/solutions">Solutions</a>
-    <a href="index.html#team">Team</a>
-    <a href="index.html#about">About</a>
-    <a href="index.html#contact" class="nav-cta">Book Free Call →</a>
+    <a href="/#team">Team</a>
+    <a href="/#about">About</a>
+    <a href="/#contact" class="nav-cta">Book Free Call →</a>
   </div>
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
     <span></span><span></span><span></span>
@@ -426,9 +425,9 @@
 <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation">
   <a href="/services">Services</a>
   <a href="/solutions">Solutions</a>
-  <a href="index.html#team">Team</a>
-  <a href="index.html#about">About</a>
-  <a href="index.html#contact" class="mobile-cta">Book Free Call →</a>
+  <a href="/#team">Team</a>
+  <a href="/#about">About</a>
+  <a href="/#contact" class="mobile-cta">Book Free Call →</a>
 </div>
 
 <main>
@@ -680,7 +679,7 @@
     <p>Tell us what you're trying to build. We'll tell you honestly what's possible and what it takes.</p>
   </div>
   <div class="cta-buttons">
-    <a href="index.html#contact" class="btn-primary">Discuss Your Use Case →</a>
+    <a href="/#contact" class="btn-primary">Discuss Your Use Case →</a>
     <a href="/solutions" class="btn-secondary">See Solutions</a>
   </div>
 </section>
@@ -722,9 +721,9 @@
     <div>
       <div style="font-size:11px; color:#4a5068; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:18px; font-weight:500;">Company</div>
       <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
-        <li><a href="index.html#about" style="font-size:13px; color:#6b7590; text-decoration:none;">About Us</a></li>
-        <li><a href="index.html#team" style="font-size:13px; color:#6b7590; text-decoration:none;">Team</a></li>
-        <li><a href="index.html#contact" style="font-size:13px; color:#6b7590; text-decoration:none;">Book a Free Call</a></li>
+        <li><a href="/#about" style="font-size:13px; color:#6b7590; text-decoration:none;">About Us</a></li>
+        <li><a href="/#team" style="font-size:13px; color:#6b7590; text-decoration:none;">Team</a></li>
+        <li><a href="/#contact" style="font-size:13px; color:#6b7590; text-decoration:none;">Book a Free Call</a></li>
         <li><a href="mailto:hello@fuchr.ai" style="font-size:13px; color:#6b7590; text-decoration:none;">Contact</a></li>
       </ul>
     </div>
@@ -732,7 +731,7 @@
   <div style="border-top:1px solid var(--border); padding:20px 80px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; box-sizing:border-box;">
     <div style="font-size:12px; color:#4a5068;">© 2026 Fuchr AI. All rights reserved.</div>
     <div style="display:flex; gap:24px; align-items:center;">
-      <a href="index.html" style="font-size:12px; color:#4a5068; text-decoration:none;">Home</a>
+      <a href="/" style="font-size:12px; color:#4a5068; text-decoration:none;">Home</a>
       <a href="/privacy" style="font-size:12px; color:#4a5068; text-decoration:none;">Privacy Policy</a>
       <span style="font-size:12px; color:#4a5068;">Made in India 🇮🇳</span>
     </div>
