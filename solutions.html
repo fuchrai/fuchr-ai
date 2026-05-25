@@ -307,7 +307,8 @@
     .cta-section { padding: 72px 40px; flex-direction: column; align-items: flex-start; }
   }
   @media (max-width: 768px) {
-    .solution-header-row { display: none; }
+    .solution-header-row { display: none !important; }
+    .solutions-section-header { display: none; }
     html, body { overflow-x: hidden; max-width: 100vw; }
     nav { padding: 0 20px; }
     .nav-links { display: none; }
@@ -398,7 +399,7 @@
   <div class="solution-list">
 
     <!-- COLUMN HEADERS — desktop only -->
-    <div class="solution-row solution-header-row" style="background:var(--bg2); pointer-events:none; border-bottom:2px solid var(--border2);">
+    <div class="solution-row solution-header-row" style="background:var(--bg2); pointer-events:none; border-bottom:2px solid var(--border2);" aria-hidden="true">
       <div class="solution-num" style="padding-top:16px; padding-bottom:16px;"></div>
       <div class="solution-main" style="padding:16px 40px 16px 0;">
         <div class="sol-col-label" style="margin:0;">Solution</div>
