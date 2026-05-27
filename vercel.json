@@ -2,5 +2,11 @@
   "rewrites": [
     { "source": "/services", "destination": "/services.html" },
     { "source": "/solutions", "destination": "/solutions.html" }
+  ],
+  "headers": [
+    {
+      "source": "/sitemap.xml",
+      "headers": [{ "key": "Content-Type", "value": "application/xml" }]
+    }
   ]
 }
