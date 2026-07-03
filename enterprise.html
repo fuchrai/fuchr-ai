@@ -52,6 +52,10 @@
   .dropdown-col-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted2); letter-spacing: 0.12em; text-transform: uppercase; padding: 8px 10px 4px; }
   .dropdown-item { display: block; padding: 8px 10px; border-radius: 6px; text-decoration: none; color: var(--muted); font-size: 13px; transition: background 0.15s, color 0.15s; cursor: none; white-space: nowrap; }
   .dropdown-item:hover { background: var(--surface); color: var(--ink); }
+  .nav-dropdown-trigger { background: none; border: none; font-size: 13.5px; font-weight: 400; color: var(--muted); letter-spacing: 0.02em; cursor: none; display: flex; align-items: center; gap: 4px; padding: 0; transition: color 0.2s; }
+  .nav-dropdown-trigger:hover, .nav-dropdown-trigger.active { color: var(--accent); }
+  .nav-dropdown-trigger .acc-arrow { font-size: 10px; color: var(--muted2); transition: transform 0.2s; }
+  .nav-dropdown:hover .nav-dropdown-trigger .acc-arrow { transform: rotate(180deg); }
   .dropdown-item .di-icon { font-size: 12px; margin-right: 6px; opacity: 0.6; }
   .dropdown-divider { grid-column: 1 / -1; border: none; border-top: 1px solid var(--border); margin: 4px 0; }
 
@@ -138,6 +142,16 @@
     .burger { display: flex; }
     .dropdown-menu { display: none; }
   }
+
+  .mobile-accordion-toggle { background: none; border: none; font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--muted); padding: 10px 24px; letter-spacing: -0.02em; transition: color 0.2s; cursor: none; display: flex; align-items: center; justify-content: space-between; width: 100%; }
+  .mobile-accordion-toggle:hover { color: var(--ink); }
+  .mobile-accordion-toggle .acc-arrow { font-size: 14px; transition: transform 0.25s; }
+  .mobile-accordion-toggle.open .acc-arrow { transform: rotate(180deg); }
+  .mobile-accordion-body { display: none; flex-direction: column; width: 100%; padding: 0 24px 8px; gap: 2px; }
+  .mobile-accordion-body.open { display: flex; }
+  .mobile-acc-section { font-family: var(--font-mono); font-size: 10px; color: var(--muted2); letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 0 4px; }
+  .mobile-acc-link { font-size: 15px; color: var(--muted); text-decoration: none; padding: 7px 0; transition: color 0.2s; cursor: none; }
+  .mobile-acc-link:hover { color: var(--ink); }
 </style>
 </head>
 <body>
@@ -153,7 +167,7 @@
   <div class="nav-links">
     <a href="/services">Services</a>
     <div class="nav-dropdown">
-      <a href="/solutions">Solutions</a>
+      <button class="nav-dropdown-trigger">Solutions <span class="acc-arrow">▾</span></button>
       <div class="dropdown-menu">
         <!-- Col 1: Custom Solutions -->
         <div>
@@ -189,7 +203,27 @@
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation">
   <a href="/services">Services</a>
-  <div class="mobile-section-label">Custom Solutions</div>
+  <button class="mobile-accordion-toggle" id="mobileAccToggle">Solutions <span class="acc-arrow">▾</span></button>
+  <div class="mobile-accordion-body" id="mobileAccBody">
+    <div class="mobile-acc-section">Custom Solutions</div>
+    <a href="/solutions#support" class="mobile-acc-link">💬 Customer Support AI</a>
+    <a href="/solutions#leads" class="mobile-acc-link">🎯 Lead Qualification</a>
+    <a href="/solutions#marketing" class="mobile-acc-link">📣 Marketing Operations</a>
+    <a href="/solutions#internal" class="mobile-acc-link">🧠 Internal Assistants</a>
+    <a href="/solutions#workflow" class="mobile-acc-link">⚡ Workflow Automation</a>
+    <a href="/solutions#voice" class="mobile-acc-link">🎙️ Voice AI Journeys</a>
+    <a href="/solutions#product" class="mobile-acc-link">🛠️ AI Product Building</a>
+    <a href="/solutions#learning" class="mobile-acc-link">📚 Learning &amp; Assessment</a>
+    <div class="mobile-acc-section">Enterprise Platforms</div>
+    <a href="/enterprise#salesforce" class="mobile-acc-link">☁️ Salesforce Agents</a>
+    <a href="/enterprise#servicenow" class="mobile-acc-link">🔧 ServiceNow Agents</a>
+    <a href="/enterprise#workday" class="mobile-acc-link">👥 Workday Agents</a>
+    <a href="/enterprise#sap" class="mobile-acc-link">⚙️ SAP Agents</a>
+  </div>
+  <a href="/#team">Team</a>
+  <a href="/#about">About</a>
+  <a href="/#contact" class="mobile-cta">Book Free Call →</a>
+</div>
   <a href="/solutions" style="font-size:18px;">All Custom Solutions</a>
   <div class="mobile-section-label">Enterprise Platforms</div>
   <a href="/enterprise#salesforce" style="font-size:18px;">Salesforce Agents</a>
@@ -483,6 +517,19 @@
     sections.forEach((s, i) => { if (s && window.scrollY >= s.offsetTop - 120) current = i; });
     tabs.forEach((t, i) => t.classList.toggle('active', i === current));
   });
+
+  const accToggle = document.getElementById("mobileAccToggle");
+  const accBody = document.getElementById("mobileAccBody");
+  if (accToggle) {
+    accToggle.addEventListener("click", () => {
+      const open = accBody.classList.toggle("open");
+      accToggle.classList.toggle("open", open);
+    });
+  }
+  document.querySelectorAll(".mobile-acc-link").forEach(a => a.addEventListener("click", () => {
+    mobileMenu.classList.remove("open");
+    document.body.style.overflow = "";
+  }));
 </script>
 </body>
 </html>
