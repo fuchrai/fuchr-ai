@@ -92,6 +92,16 @@
     transition: background 0.2s, border-color 0.2s !important;
   }
   .nav-cta:hover { background: rgba(184,68,44,0.10) !important; border-color: var(--accent) !important; }
+  .nav-dropdown { position: relative; }
+  .nav-dropdown > a { display: flex; align-items: center; gap: 4px; }
+  .nav-dropdown > a::after { content: '▾'; font-size: 10px; color: var(--muted2); transition: transform 0.2s; }
+  .nav-dropdown:hover > a::after { transform: rotate(180deg); }
+  .dropdown-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-6px); background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 8px; min-width: 480px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  .nav-dropdown:hover .dropdown-menu { opacity: 1; pointer-events: all; transform: translateX(-50%) translateY(0); }
+  .dropdown-col-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted2); letter-spacing: 0.12em; text-transform: uppercase; padding: 8px 10px 4px; }
+  .dropdown-item { display: block; padding: 8px 10px; border-radius: 6px; text-decoration: none; color: var(--muted); font-size: 13px; transition: background 0.15s, color 0.15s; cursor: none; white-space: nowrap; }
+  .dropdown-item:hover { background: var(--surface); color: var(--ink); }
+  .dropdown-item .di-icon { font-size: 12px; margin-right: 6px; opacity: 0.6; }
   .burger { display: none; }
 
   /* MOBILE MENU */
@@ -356,7 +366,29 @@
   </a>
   <div class="nav-links">
     <a href="/services">Services</a>
-    <a href="/solutions" class="active">Solutions</a>
+    <div class="nav-dropdown">
+      <a href="/solutions" class="active">Solutions</a>
+      <div class="dropdown-menu">
+        <div>
+          <div class="dropdown-col-label">Custom Solutions</div>
+          <a href="/solutions#support" class="dropdown-item"><span class="di-icon">💬</span>Customer Support AI</a>
+          <a href="/solutions#leads" class="dropdown-item"><span class="di-icon">🎯</span>Lead Qualification</a>
+          <a href="/solutions#marketing" class="dropdown-item"><span class="di-icon">📣</span>Marketing Operations</a>
+          <a href="/solutions#internal" class="dropdown-item"><span class="di-icon">🧠</span>Internal Assistants</a>
+          <a href="/solutions#workflow" class="dropdown-item"><span class="di-icon">⚡</span>Workflow Automation</a>
+          <a href="/solutions#voice" class="dropdown-item"><span class="di-icon">🎙️</span>Voice AI Journeys</a>
+          <a href="/solutions#product" class="dropdown-item"><span class="di-icon">🛠️</span>AI Product Building</a>
+          <a href="/solutions#learning" class="dropdown-item"><span class="di-icon">📚</span>Learning &amp; Assessment</a>
+        </div>
+        <div>
+          <div class="dropdown-col-label">Enterprise Platforms</div>
+          <a href="/enterprise#salesforce" class="dropdown-item"><span class="di-icon">☁️</span>Salesforce Agents</a>
+          <a href="/enterprise#servicenow" class="dropdown-item"><span class="di-icon">🔧</span>ServiceNow Agents</a>
+          <a href="/enterprise#workday" class="dropdown-item"><span class="di-icon">👥</span>Workday Agents</a>
+          <a href="/enterprise#sap" class="dropdown-item"><span class="di-icon">⚙️</span>SAP Agents</a>
+        </div>
+      </div>
+    </div>
     <a href="/#team">Team</a>
     <a href="/#about">About</a>
     <a href="/#contact" class="nav-cta">Book Free Call →</a>
