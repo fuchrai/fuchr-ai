@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Platform Agents — Fuchr.ai</title>
+  <meta name="description" content="Custom AI agents built on Salesforce, ServiceNow, Workday, and SAP. Not the out-of-the-box defaults — agents scoped to your workflows, your data, your edge cases.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23F6F3EC'/><circle cx='16' cy='16' r='6' fill='%23B8442C'/></svg>">
+  <meta name="theme-color" content="#F6F3EC">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #F6F3EC; --bg2: #EDE8DE; --surface: #E5DFD3;
+    --border: #D9D4C7; --border2: #C8C2B5;
+    --ink: #17171A; --muted: #5B5B63; --muted2: #AFAFB4;
+    --accent: #B8442C; --accent2: #9B6B50;
+    --font-display: Arial, Helvetica, sans-serif;
+    --font-body: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; cursor: none; }
+  @media (hover: none) { body { cursor: default; } }
+
+  /* CURSOR */
+  #cursor { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s, width 0.3s, height 0.3s; }
+  #cursor-ring { width: 36px; height: 36px; border: 1px solid rgba(61,126,255,0.4); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: transform 0.18s ease-out, width 0.3s, height 0.3s; }
+  body:has(a:hover) #cursor { width: 12px; height: 12px; background: var(--accent2); }
+  body:has(a:hover) #cursor-ring { width: 50px; height: 50px; border-color: rgba(184,68,44,0.4); }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 68px; background: rgba(246,243,236,0.92); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .nav-logo-dot { width: 28px; height: 16px; border-radius: 100px; background: var(--accent); flex-shrink: 0; }
+  .nav-links { display: flex; align-items: center; gap: 36px; }
+  .nav-links a { font-size: 13.5px; font-weight: 400; color: var(--muted); text-decoration: none; letter-spacing: 0.02em; transition: color 0.2s; cursor: none; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta { padding: 9px 22px; border: 1px solid var(--border2); border-radius: 6px; font-size: 13px; font-weight: 500; color: var(--ink) !important; background: rgba(255,255,255,0.04); transition: background 0.2s, border-color 0.2s !important; }
+  .nav-cta:hover { background: rgba(184,68,44,0.10) !important; border-color: var(--accent) !important; }
+
+  /* NAV DROPDOWN */
+  .nav-dropdown { position: relative; }
+  .nav-dropdown > a { display: flex; align-items: center; gap: 4px; }
+  .nav-dropdown > a::after { content: '▾'; font-size: 10px; color: var(--muted2); transition: transform 0.2s; }
+  .nav-dropdown:hover > a::after { transform: rotate(180deg); }
+  .dropdown-menu { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%); background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 8px; min-width: 480px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; transform: translateX(-50%) translateY(-6px); display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  .nav-dropdown:hover .dropdown-menu { opacity: 1; pointer-events: all; transform: translateX(-50%) translateY(0); }
+  .dropdown-col-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted2); letter-spacing: 0.12em; text-transform: uppercase; padding: 8px 10px 4px; }
+  .dropdown-item { display: block; padding: 8px 10px; border-radius: 6px; text-decoration: none; color: var(--muted); font-size: 13px; transition: background 0.15s, color 0.15s; cursor: none; white-space: nowrap; }
+  .dropdown-item:hover { background: var(--surface); color: var(--ink); }
+  .dropdown-item .di-icon { font-size: 12px; margin-right: 6px; opacity: 0.6; }
+  .dropdown-divider { grid-column: 1 / -1; border: none; border-top: 1px solid var(--border); margin: 4px 0; }
+
+  /* BURGER */
+  .burger { display: none; background: none; border: none; padding: 8px; cursor: none; flex-direction: column; gap: 5px; }
+  .burger span { display: block; width: 22px; height: 1.5px; background: var(--ink); transition: transform 0.3s, opacity 0.3s; }
+
+  /* MOBILE MENU */
+  .mobile-menu { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(246,243,236,0.99); backdrop-filter: blur(20px); flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--muted); text-decoration: none; padding: 10px 24px; letter-spacing: -0.02em; transition: color 0.2s; }
+  .mobile-menu a:hover { color: var(--ink); }
+  .mobile-menu .mobile-cta { margin-top: 16px; padding: 12px 32px; background: var(--accent); color: #fff !important; border-radius: 8px; font-size: 16px; }
+  .mobile-section-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted2); letter-spacing: 0.12em; text-transform: uppercase; padding: 12px 24px 4px; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* HERO */
+  .page-hero { padding: 140px 80px 80px; max-width: 1300px; margin: 0 auto; box-sizing: border-box; }
+  .page-eyebrow { font-family: var(--font-mono); font-size: 11px; color: var(--muted2); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; animation: fadeUp 0.6s ease both; }
+  .page-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); }
+  .page-hero h1 { font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; max-width: 800px; animation: fadeUp 0.6s ease 0.1s both; }
+  .page-hero h1 em { font-style: normal; color: var(--accent); }
+  .page-hero-sub { font-size: 17px; color: var(--muted); line-height: 1.75; max-width: 640px; margin-top: 24px; animation: fadeUp 0.6s ease 0.2s both; }
+
+  /* PLATFORM NAV */
+  .platform-nav { padding: 0 80px; max-width: 1300px; margin: 0 auto 0; box-sizing: border-box; }
+  .platform-nav-inner { display: flex; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 0; }
+  .platform-tab { font-size: 13px; color: var(--muted); text-decoration: none; padding: 10px 16px; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.2s, border-color 0.2s; cursor: none; white-space: nowrap; }
+  .platform-tab:hover { color: var(--ink); }
+  .platform-tab.active { color: var(--accent); border-color: var(--accent); }
+
+  /* PLATFORM SECTIONS */
+  .platform-section { padding: 80px 80px; max-width: 1300px; margin: 0 auto; box-sizing: border-box; border-bottom: 1px solid var(--border); }
+  .platform-section:last-of-type { border-bottom: none; }
+
+  .platform-header { display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: center; margin-bottom: 56px; }
+  .platform-logo-wrap { width: 72px; height: 72px; border-radius: 16px; border: 1px solid var(--border); background: #fff; display: flex; align-items: center; justify-content: center; padding: 12px; flex-shrink: 0; }
+  .platform-logo-wrap svg { width: 100%; height: 100%; }
+  .platform-title { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 6px; }
+  .platform-tagline { font-size: 15px; color: var(--muted); line-height: 1.6; max-width: 560px; }
+
+  .platform-body { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .platform-context { padding-right: 24px; }
+  .platform-context-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted2); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; }
+  .platform-context p { font-size: 15px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; }
+  .platform-context p strong { color: var(--ink); }
+
+  .usecase-list { display: flex; flex-direction: column; gap: 20px; }
+  .usecase-item { padding: 20px 22px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); transition: background 0.2s, border-color 0.2s; }
+  .usecase-item:hover { background: var(--bg2); border-color: var(--border2); }
+  .usecase-label { font-family: var(--font-mono); font-size: 10px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+  .usecase-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; line-height: 1.4; }
+  .usecase-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+  /* CTA SECTION */
+  .cta-section { background: var(--bg2); border-top: 1px solid var(--border); padding: 80px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+  .cta-section h2 { font-family: var(--font-display); font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .cta-section p { font-size: 16px; color: var(--muted); }
+  .cta-buttons { display: flex; gap: 16px; flex-shrink: 0; }
+  .btn-primary { padding: 14px 28px; background: var(--accent); color: #fff; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; transition: opacity 0.2s; cursor: none; }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-secondary { padding: 14px 28px; border: 1px solid var(--border2); border-radius: 8px; text-decoration: none; color: var(--ink); font-size: 14px; font-weight: 500; transition: border-color 0.2s; cursor: none; }
+  .btn-secondary:hover { border-color: var(--accent); }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); background: var(--bg); }
+  .footer-inner { max-width: 1300px; margin: 0 auto; padding: 64px 80px 48px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; box-sizing: border-box; }
+  .footer-bottom { border-top: 1px solid var(--border); padding: 20px 80px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; box-sizing: border-box; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a, .footer-bottom span { font-size: 12px; color: #4a5068; text-decoration: none; }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .page-hero { padding: 120px 24px 60px; }
+    .platform-nav { padding: 0 24px; }
+    .platform-section { padding: 60px 24px; }
+    .platform-body { grid-template-columns: 1fr; }
+    .platform-header { grid-template-columns: auto 1fr; gap: 20px; }
+    .cta-section { padding: 60px 24px; flex-direction: column; align-items: flex-start; }
+    .footer-inner { padding: 48px 24px; grid-template-columns: 1fr 1fr; }
+    .footer-bottom { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .burger { display: flex; }
+    .dropdown-menu { display: none; }
+  }
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV — shared component, same as index/solutions -->
+<nav aria-label="Main navigation">
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-dot"></div>
+    fuchr<span style="color:var(--accent)">.</span>ai
+  </a>
+  <div class="nav-links">
+    <a href="/services">Services</a>
+    <div class="nav-dropdown">
+      <a href="/solutions">Solutions</a>
+      <div class="dropdown-menu">
+        <!-- Col 1: Custom Solutions -->
+        <div>
+          <div class="dropdown-col-label">Custom Solutions</div>
+          <a href="/solutions#support" class="dropdown-item"><span class="di-icon">💬</span>Customer Support AI</a>
+          <a href="/solutions#leads" class="dropdown-item"><span class="di-icon">🎯</span>Lead Qualification</a>
+          <a href="/solutions#marketing" class="dropdown-item"><span class="di-icon">📣</span>Marketing Operations</a>
+          <a href="/solutions#internal" class="dropdown-item"><span class="di-icon">🧠</span>Internal Assistants</a>
+          <a href="/solutions#workflow" class="dropdown-item"><span class="di-icon">⚡</span>Workflow Automation</a>
+          <a href="/solutions#voice" class="dropdown-item"><span class="di-icon">🎙️</span>Voice AI Journeys</a>
+          <a href="/solutions#product" class="dropdown-item"><span class="di-icon">🛠️</span>AI Product Building</a>
+          <a href="/solutions#learning" class="dropdown-item"><span class="di-icon">📚</span>Learning &amp; Assessment</a>
+        </div>
+        <!-- Col 2: Enterprise Platforms -->
+        <div>
+          <div class="dropdown-col-label">Enterprise Platforms</div>
+          <a href="/enterprise#salesforce" class="dropdown-item"><span class="di-icon">☁️</span>Salesforce Agents</a>
+          <a href="/enterprise#servicenow" class="dropdown-item"><span class="di-icon">🔧</span>ServiceNow Agents</a>
+          <a href="/enterprise#workday" class="dropdown-item"><span class="di-icon">👥</span>Workday Agents</a>
+          <a href="/enterprise#sap" class="dropdown-item"><span class="di-icon">⚙️</span>SAP Agents</a>
+        </div>
+      </div>
+    </div>
+    <a href="/#team">Team</a>
+    <a href="/#about">About</a>
+    <a href="/#contact" class="nav-cta">Book Free Call →</a>
+  </div>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation">
+  <a href="/services">Services</a>
+  <div class="mobile-section-label">Custom Solutions</div>
+  <a href="/solutions" style="font-size:18px;">All Custom Solutions</a>
+  <div class="mobile-section-label">Enterprise Platforms</div>
+  <a href="/enterprise#salesforce" style="font-size:18px;">Salesforce Agents</a>
+  <a href="/enterprise#servicenow" style="font-size:18px;">ServiceNow Agents</a>
+  <a href="/enterprise#workday" style="font-size:18px;">Workday Agents</a>
+  <a href="/enterprise#sap" style="font-size:18px;">SAP Agents</a>
+  <a href="/#contact" class="mobile-cta">Book Free Call →</a>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-eyebrow">Enterprise Platform Agents</div>
+  <h1>Your enterprise stack already has AI. <em>Most of it is sitting unused.</em></h1>
+  <p class="page-hero-sub">Salesforce, ServiceNow, Workday, and SAP all ship native agent-building tools. The defaults handle generic scenarios. We build the custom agents that actually fit your workflows, your data, and your edge cases — on the platform you already pay for.</p>
+</section>
+
+<!-- PLATFORM TABS -->
+<div class="platform-nav">
+  <div class="platform-nav-inner">
+    <a href="#salesforce" class="platform-tab active">Salesforce</a>
+    <a href="#servicenow" class="platform-tab">ServiceNow</a>
+    <a href="#workday" class="platform-tab">Workday</a>
+    <a href="#sap" class="platform-tab">SAP</a>
+  </div>
+</div>
+
+<!-- SALESFORCE -->
+<section class="platform-section" id="salesforce">
+  <div class="platform-header">
+    <div class="platform-logo-wrap">
+      <!-- Salesforce logo SVG -->
+      <svg viewBox="0 0 64 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M26.6 4.4a11.4 11.4 0 0 1 8.1 3.4 15.8 15.8 0 0 1 7.9-2.1c8.8 0 15.9 7.2 15.9 16.1S51.4 37.9 42.6 37.9c-1 0-2-.1-2.9-.3A10.6 10.6 0 0 1 30.5 43a10.5 10.5 0 0 1-8-3.7A13.2 13.2 0 0 1 18 40.5C11.4 40.5 6 35 6 28.3c0-3.8 1.7-7.2 4.4-9.5A12.4 12.4 0 0 1 9.8 15C9.8 9.1 14.6 4.4 20.5 4.4c2.2 0 4.3.7 6.1 1.8V4.4z" fill="#00A1E0"/>
+      </svg>
+    </div>
+    <div>
+      <div class="platform-title">Salesforce — Agentforce</div>
+      <div class="platform-tagline">Your CRM is where your sales, service, and customer data live. Agentforce lets you build AI agents that act on that data — but the defaults only cover generic scenarios.</div>
+    </div>
+  </div>
+  <div class="platform-body">
+    <div class="platform-context">
+      <div class="platform-context-label">What the defaults don't do</div>
+      <p>Salesforce ships templates that look good in demos. They work on clean, fictional data with no real business logic. Your org has <strong>messy data, custom objects, specific approval chains, and policies the template has never seen.</strong></p>
+      <p>We design and build custom subagents, actions, and data retrieval on your actual Salesforce org — connected to your real Knowledge base, your order/case systems, and your specific escalation rules.</p>
+    </div>
+    <div class="usecase-list">
+      <div class="usecase-item">
+        <div class="usecase-label">Custom agent</div>
+        <div class="usecase-title">Refund &amp; order status agent</div>
+        <div class="usecase-desc">Looks up a customer's actual order, checks refund eligibility against your specific policy tiers (not a generic template), communicates the outcome, and escalates only when a human decision is genuinely required.</div>
+      </div>
+      <div class="usecase-item">
+        <div class="usecase-label">Custom agent</div>
+        <div class="usecase-title">Pre-call sales intelligence agent</div>
+        <div class="usecase-desc">Before a rep dials, the agent pulls the contact's full activity history, open cases, product usage, and competitor mentions from your CRM — surfaces a structured brief, not raw records.</div>
+      </div>
+      <div class="usecase-item">
+        <div class="usecase-label">Custom agent</div>
+        <div class="usecase-title">Advisor meeting prep agent</div>
+        <div class="usecase-desc">For financial services or B2B teams — processes CRM data and recent activity into a structured client briefing before every meeting, automatically. No manual note assembly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICENOW -->
+<section class="platform-section" id="servicenow">
+  <div class="platform-header">
+    <div class="platform-logo-wrap">
+      <!-- ServiceNow logo -->
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="64" height="64" rx="12" fill="#62D84E"/>
+        <path d="M32 14C22.1 14 14 22.1 14 32s8.1 18 18 18 18-8.1 18-18-8.1-18-18-18zm0 8a10 10 0 1 1 0 20 10 10 0 0 1 0-20z" fill="white"/>
+      </svg>
+    </div>
+    <div>
+      <div class="platform-title">ServiceNow — AI Agent Studio</div>
+      <div class="platform-tagline">ServiceNow runs IT, HR, and customer service workflows for 85%+ of Fortune 500 companies. Now Assist handles the generic. Custom agents handle the specific.</div>
+    </div>
+  </div>
+  <div class="platform-body">
+    <div class="platform-context">
+      <div class="platform-context-label">What the defaults don't do</div>
+      <p>ServiceNow's out-of-the-box Now Assist skills summarize incidents and suggest KB articles. Useful — but <strong>your IT team's workflows, approval chains, CMDBs, and escalation rules are all custom.</strong> The generic agent doesn't know any of that.</p>
+      <p>We build agents in AI Agent Studio that understand your specific org structure, your incident classification logic, and your actual knowledge base — not a demo dataset.</p>
+    </div>
+    <div class="usecase-list">
+      <div class="usecase-item">
+        <div class="usecase-label">Custom agent</div>
+        <div class="usecase-title">IT incident triage &amp; resolution agent</div>
+        <div class="usecase-desc">Reads incoming tickets, cross-references your CMDB and known-error database, auto-resolves L1 issues, and routes the rest to the right team with full context — not just category tags.</div>
+      </div>
+      <div class="usecase-item">
+        <div class="usecase-label">Custom agent</div>
+        <div class="usecase-title">Employee onboarding agent</div>
+        <div class="usecase-desc">Answers new hire questions from your actual HR policies and benefit plans — not generic text. Guides them through your specific onboarding checklist, submits access requests, and tracks completion.</div>
+      </div>
+      <div class="usecase-item">
+        <div class="usecase-label">Custom agent</div>
+        <div class="usecase-title">Change request drafting agent</div>
+        <div class="usecase-desc">Engineer describes a change in plain language. Agent generates a correctly formatted change request following your CAB policy, pre-fills risk fields from similar past changes, and routes for approval.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKDAY -->
+<section class="platform-section" id="workday">
+  <div class="platform-header">
+    <div class="platform-logo-wrap">
+      <!-- Workday logo -->
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="64" height="64" rx="12" fill="#F3642C"/>
+        <path d="M20 44L28 20h4l6 16 6-16h4l-8 24h-4l-6-15-6 15h-4z" fill="white"/>
+      </svg>
+    </div>
+    <div>
+      <div class="platform-title">Workday — Illuminate</div>
+      <div class="platform-tagline">Workday runs HR and Finance for 65%+ of Fortune 500 companies. Illuminate ships pre-built agents for common tasks. Your org's specific policies, approval rules, and data structures are not in the default.</div>
+    </div>
+  </div>
+  <div class="platform-body">
+    <div class="platform-context">
+      <div class="platform-context-label">What the defaults don't do</div>
+      <p>Workday's built-in agents handle standard HR tasks well. But <strong>your leave policy tiers, bonus calculation rules, approval hierarchies, and custom reporting fields are specific to your implementation</strong> — and the default agents don't know them.</p>
+      <p>We configure and extend Illuminate agents to understand your company's actual HR and Finance logic — the same data your HR BPs and Finance controllers work with daily.</p>
+    </div>
+    <div class="usecase-list">
+      <div class="usecase-item">
+        <div class="usecase-label">Custom agent</div>
+        <div class="usecase-title">Policy-aware leave &amp; benefits agent</div>
+        <div class="usecase-desc">Answers employee queries about their specific leave balance, entitlements, and benefit elections — not a generic policy FAQ. Pulls from the employee's actual Workday record and your company's leave policy tiers.</div>
+      </div>
+      <div class="usecase-item">
+        <div class="usecase-label">Custom agent</div>
+        <div class="usecase-title">Finance reconciliation agent</div>
+        <div class="usecase-desc">Reads daily bank statements against your general ledger, flags mismatches, and generates a reconciliation summary — reducing manual cash positioning work for your finance team by hours per day.</div>
+      </div>
+      <div class="usecase-item">
+        <div class="usecase-label">Custom agent</div>
+        <div class="usecase-title">Payroll exception agent</div>
+        <div class="usecase-desc">Before payroll runs, the agent scans for anomalies — new hires missing tax forms, terminated employees still active, unusual hours — and flags them with context, not just a raw exception report.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAP -->
+<section class="platform-section" id="sap">
+  <div class="platform-header">
+    <div class="platform-logo-wrap">
+      <!-- SAP logo -->
+      <svg viewBox="0 0 64 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="64" height="40" rx="6" fill="#0070F2"/>
+        <text x="8" y="28" font-family="Arial" font-weight="800" font-size="22" fill="white">SAP</text>
+      </svg>
+    </div>
+    <div>
+      <div class="platform-title">SAP — Joule Studio</div>
+      <div class="platform-tagline">SAP runs procurement, supply chain, and finance for the world's largest companies. Joule Studio lets partners build custom AI agents on S/4HANA — but the real value is in your company-specific business logic.</div>
+    </div>
+  </div>
+  <div class="platform-body">
+    <div class="platform-context">
+      <div class="platform-context-label">What the defaults don't do</div>
+      <p>SAP's standard Joule agents handle common ERP queries. But most SAP environments are <strong>heavily customized — with bespoke tables, Z-programs, and approval workflows specific to your industry and org structure.</strong> The default agent doesn't touch any of that.</p>
+      <p>We build Joule Studio agents that understand your SAP customizations, your procurement rules, and your specific reporting requirements — not just the standard ERP data model.</p>
+    </div>
+    <div class="usecase-list">
+      <div class="usecase-item">
+        <div class="usecase-label">Custom agent</div>
+        <div class="usecase-title">Procurement bid analysis agent</div>
+        <div class="usecase-desc">Reads supplier bids against your procurement criteria — unit price, lead time, payment terms, vendor rating — and generates a structured comparison with a recommended shortlist, not a raw data dump.</div>
+      </div>
+      <div class="usecase-item">
+        <div class="usecase-label">Custom agent</div>
+        <div class="usecase-title">Invoice dispute resolution agent</div>
+        <div class="usecase-desc">Matches incoming invoices against purchase orders, flags mismatches by root cause category, and initiates resolution workflows — compressing dispute cycles from weeks to hours.</div>
+      </div>
+      <div class="usecase-item">
+        <div class="usecase-label">Custom agent</div>
+        <div class="usecase-title">Maintenance stock availability agent</div>
+        <div class="usecase-desc">When a maintenance request is raised, the agent checks real-time stock levels across your warehouses, identifies nearest available parts, and pre-stages the replenishment order — before the technician asks.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" aria-label="Contact CTA">
+  <div>
+    <h2>Which platform are you on?</h2>
+    <p>Tell us what's broken in your workflow. We'll tell you what we can build on your stack.</p>
+  </div>
+  <div class="cta-buttons">
+    <a href="/#contact" class="btn-primary">Book a Free Call →</a>
+    <a href="/solutions" class="btn-secondary">See Custom Solutions</a>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="nav-logo" style="margin-bottom:14px;">
+        <div class="nav-logo-dot"></div>
+        fuchr<span style="color:var(--accent)">.</span>ai
+      </div>
+      <p style="font-size:13px; color:#6b7590; line-height:1.8; max-width:280px; margin-bottom:12px;">Custom AI systems for real business workflows. Not generic. Not template-first.</p>
+      <a href="mailto:hello@fuchr.ai" style="display:block; font-size:13px; color:var(--accent); text-decoration:none; margin-bottom:6px;">hello@fuchr.ai</a>
+      <a href="tel:+917077703170" style="display:block; font-size:13px; color:var(--accent); text-decoration:none;">+91 70777 03170</a>
+    </div>
+    <div>
+      <div style="font-size:11px; color:#4a5068; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:18px; font-weight:500;">Services</div>
+      <ul style="list-style:none; display:flex; flex-direction:column; gap:10px;">
+        <li><a href="/services" style="font-size:13px; color:#6b7590; text-decoration:none;">Custom AI Systems</a></li>
+        <li><a href="/services" style="font-size:13px; color:#6b7590; text-decoration:none;">Voice AI</a></li>
+        <li><a href="/services" style="font-size:13px; color:#6b7590; text-decoration:none;">Multi-Agent Systems</a></li>
+        <li><a href="/services" style="font-size:13px; color:#6b7590; text-decoration:none;">Private AI</a></li>
+      </ul>
+    </div>
+    <div>
+      <div style="font-size:11px; color:#4a5068; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:18px; font-weight:500;">Enterprise</div>
+      <ul style="list-style:none; display:flex; flex-direction:column; gap:10px;">
+        <li><a href="/enterprise#salesforce" style="font-size:13px; color:#6b7590; text-decoration:none;">Salesforce Agents</a></li>
+        <li><a href="/enterprise#servicenow" style="font-size:13px; color:#6b7590; text-decoration:none;">ServiceNow Agents</a></li>
+        <li><a href="/enterprise#workday" style="font-size:13px; color:#6b7590; text-decoration:none;">Workday Agents</a></li>
+        <li><a href="/enterprise#sap" style="font-size:13px; color:#6b7590; text-decoration:none;">SAP Agents</a></li>
+      </ul>
+    </div>
+    <div>
+      <div style="font-size:11px; color:#4a5068; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:18px; font-weight:500;">Company</div>
+      <ul style="list-style:none; display:flex; flex-direction:column; gap:10px;">
+        <li><a href="/#about" style="font-size:13px; color:#6b7590; text-decoration:none;">About Us</a></li>
+        <li><a href="/#team" style="font-size:13px; color:#6b7590; text-decoration:none;">Team</a></li>
+        <li><a href="/#contact" style="font-size:13px; color:#6b7590; text-decoration:none;">Book a Free Call</a></li>
+        <li><a href="mailto:hello@fuchr.ai" style="font-size:13px; color:#6b7590; text-decoration:none;">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Fuchr AI. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy">Privacy Policy</a>
+      <span>Made in India 🇮🇳</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 60);
+  });
+
+  // Burger
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => {
+    const open = !mobileMenu.classList.contains('open');
+    mobileMenu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }));
+
+  // Nav scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 40 ? 'rgba(246,243,236,0.97)' : 'rgba(246,243,236,0.92)';
+  });
+
+  // Active platform tab on scroll
+  const tabs = document.querySelectorAll('.platform-tab');
+  const sections = ['salesforce','servicenow','workday','sap'].map(id => document.getElementById(id));
+  window.addEventListener('scroll', () => {
+    let current = 0;
+    sections.forEach((s, i) => { if (s && window.scrollY >= s.offsetTop - 120) current = i; });
+    tabs.forEach((t, i) => t.classList.toggle('active', i === current));
+  });
+</script>
+</body>
+</html>
