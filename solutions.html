@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solutions — Fuchr.ai | What Business Problems We Solve</title>
-  <meta name="description" content="Fuchr solves real business problems with AI — customer support, lead qualification, marketing ops, internal knowledge, workflow automation, and voice-led journeys.">
+  <title>Solutions | Fuchr.ai | What Business Problems We Solve</title>
+  <meta name="description" content="Fuchr solves real business problems with AI: customer support, lead qualification, marketing ops, internal knowledge, workflow automation, and voice-led journeys.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -93,15 +93,27 @@
   }
   .nav-cta:hover { background: rgba(184,68,44,0.10) !important; border-color: var(--accent) !important; }
   .nav-dropdown { position: relative; }
-  .nav-dropdown > a { display: flex; align-items: center; gap: 4px; }
-  .nav-dropdown > a::after { content: '▾'; font-size: 10px; color: var(--muted2); transition: transform 0.2s; }
-  .nav-dropdown:hover > a::after { transform: rotate(180deg); }
-  .dropdown-menu { position: absolute; top: 100%; margin-top: 0; left: 50%; transform: translateX(-50%) translateY(-6px); background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px 8px; min-width: 480px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  .nav-dropdown-trigger { background: none; border: none; font-size: 13.5px; font-weight: 400; color: var(--muted); letter-spacing: 0.02em; cursor: none; display: flex; align-items: center; gap: 4px; padding: 0; transition: color 0.2s; }
+  .nav-dropdown-trigger:hover, .nav-dropdown-trigger.active { color: var(--accent); }
+  .nav-dropdown-trigger .acc-arrow { font-size: 10px; color: var(--muted2); transition: transform 0.2s; }
+  .nav-dropdown:hover .nav-dropdown-trigger .acc-arrow { transform: rotate(180deg); }
+  .dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(-6px); background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px 8px; min-width: 480px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; z-index: 1001; }
   .nav-dropdown:hover .dropdown-menu { opacity: 1; pointer-events: all; transform: translateX(-50%) translateY(0); }
   .dropdown-col-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted2); letter-spacing: 0.12em; text-transform: uppercase; padding: 8px 10px 4px; }
   .dropdown-item { display: block; padding: 8px 10px; border-radius: 6px; text-decoration: none; color: var(--muted); font-size: 13px; transition: background 0.15s, color 0.15s; cursor: none; white-space: nowrap; }
   .dropdown-item:hover { background: var(--surface); color: var(--ink); }
   .dropdown-item .di-icon { font-size: 12px; margin-right: 6px; opacity: 0.6; }
+  .mobile-menu { display: none; }
+  .mobile-menu.open { display: flex; }
+  .mobile-accordion-toggle { background: none; border: none; font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--muted); padding: 10px 24px; letter-spacing: -0.02em; transition: color 0.2s; cursor: none; display: flex; align-items: center; justify-content: space-between; width: 100%; }
+  .mobile-accordion-toggle:hover { color: var(--ink); }
+  .mobile-accordion-toggle .acc-arrow { font-size: 14px; transition: transform 0.25s; }
+  .mobile-accordion-toggle.open .acc-arrow { transform: rotate(180deg); }
+  .mobile-accordion-body { display: none; flex-direction: column; width: 100%; padding: 0 24px 8px; gap: 2px; }
+  .mobile-accordion-body.open { display: flex; }
+  .mobile-acc-section { font-family: var(--font-mono); font-size: 10px; color: var(--muted2); letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 0 4px; }
+  .mobile-acc-link { font-size: 15px; color: var(--muted); text-decoration: none; padding: 7px 0; transition: color 0.2s; cursor: none; }
+  .mobile-acc-link:hover { color: var(--ink); }
   .burger { display: none; }
 
   /* MOBILE MENU */
@@ -242,6 +254,13 @@
   .solution-row.featured {
     background: var(--dark-card);
     border-bottom-color: rgba(255,255,255,0.06);
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    margin-left: -50vw;
+    padding-left: calc((100vw - 1140px) / 2 + 56px);
+    padding-right: calc((100vw - 1140px) / 2);
+    box-sizing: border-box;
   }
   .solution-row.featured:hover { background: #323236; }
   .solution-row.featured .solution-num { color: rgba(255,255,255,0.25); }
@@ -324,7 +343,7 @@
     .nav-links { display: none; }
     .burger {
       display: flex; flex-direction: column; gap: 5px;
-      cursor: pointer; padding: 12px 8px 8px; z-index: 1001;
+      cursor: pointer; padding: 8px; z-index: 1001;
       background: none; border: none;
     }
     .burger span {
@@ -367,7 +386,7 @@
   <div class="nav-links">
     <a href="/services">Services</a>
     <div class="nav-dropdown">
-      <a href="/solutions" class="active">Solutions</a>
+      <button class="nav-dropdown-trigger active">Solutions <span class="acc-arrow">▾</span></button>
       <div class="dropdown-menu">
         <div>
           <div class="dropdown-col-label">Custom Solutions</div>
@@ -400,7 +419,23 @@
 
 <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation">
   <a href="/services">Services</a>
-  <a href="/solutions">Solutions</a>
+  <button class="mobile-accordion-toggle" id="mobileAccToggle">Solutions <span class="acc-arrow">▾</span></button>
+  <div class="mobile-accordion-body" id="mobileAccBody">
+    <div class="mobile-acc-section">Custom Solutions</div>
+    <a href="/solutions#support" class="mobile-acc-link">💬 Customer Support AI</a>
+    <a href="/solutions#leads" class="mobile-acc-link">🎯 Lead Qualification</a>
+    <a href="/solutions#marketing" class="mobile-acc-link">📣 Marketing Operations</a>
+    <a href="/solutions#internal" class="mobile-acc-link">🧠 Internal Assistants</a>
+    <a href="/solutions#workflow" class="mobile-acc-link">⚡ Workflow Automation</a>
+    <a href="/solutions#voice" class="mobile-acc-link">🎙️ Voice AI Journeys</a>
+    <a href="/solutions#product" class="mobile-acc-link">🛠️ AI Product Building</a>
+    <a href="/solutions#learning" class="mobile-acc-link">📚 Learning &amp; Assessment</a>
+    <div class="mobile-acc-section">Enterprise Platforms</div>
+    <a href="/enterprise#salesforce" class="mobile-acc-link">☁️ Salesforce Agents</a>
+    <a href="/enterprise#servicenow" class="mobile-acc-link">🔧 ServiceNow Agents</a>
+    <a href="/enterprise#workday" class="mobile-acc-link">👥 Workday Agents</a>
+    <a href="/enterprise#sap" class="mobile-acc-link">⚙️ SAP Agents</a>
+  </div>
   <a href="/#team">Team</a>
   <a href="/#about">About</a>
   <a href="/#contact" class="mobile-cta">Book Free Call →</a>
@@ -415,7 +450,7 @@
     <h1>Business problems AI can <em>actually</em> fix</h1>
   </div>
   <div class="page-hero-right">
-    <p>This page is about the problems, not the architecture. Real friction points across support, growth, operations, and customer journeys — and what Fuchr builds to solve them. If you see your problem here, we should talk.</p>
+    <p>This page is about the problems, not the architecture. Real friction points across support, growth, operations, and customer journeys, and what Fuchr builds to solve them. If you see your problem here, we should talk.</p>
   </div>
 </section>
 
@@ -449,7 +484,7 @@
       <div class="solution-num">01</div>
       <div class="solution-main">
         <div class="solution-name">Customer Support AI</div>
-        <p class="solution-desc">AI systems that handle the first layer of customer contact — triaging, answering, escalating, and following up — so your team handles the things that actually need a human.</p>
+        <p class="solution-desc">AI systems that handle the first layer of customer contact — triaging, answering, escalating, and following up. Your team handles the things that actually need a human.</p>
         <div style="margin-top:16px;">
           <div class="sol-col-label">What we build</div>
           <ul class="sol-build-list">
@@ -481,7 +516,7 @@
       <div class="solution-num">02</div>
       <div class="solution-main">
         <div class="solution-name">Lead Qualification &amp; Follow-up</div>
-        <p class="solution-desc">AI that qualifies leads the moment they express intent, routes them to the right person or flow, and follows up automatically — so no opportunity sits idle.</p>
+        <p class="solution-desc">AI that qualifies leads the moment they express intent, routes them to the right person or flow, and follows up automatically. No opportunity sits idle.</p>
         <div style="margin-top:16px;">
           <div class="sol-col-label">What we build</div>
           <ul class="sol-build-list">
@@ -513,7 +548,7 @@
       <div class="solution-num">03</div>
       <div class="solution-main">
         <div class="solution-name">Marketing Operations AI</div>
-        <p class="solution-desc">AI systems that generate, personalize, schedule, and optimize marketing content and campaigns — so marketing teams can move faster without burning out.</p>
+        <p class="solution-desc">AI systems that generate, personalize, schedule, and optimize marketing content and campaigns so marketing teams can move faster without burning out.</p>
         <div style="margin-top:16px;">
           <div class="sol-col-label">What we build</div>
           <ul class="sol-build-list">
@@ -545,7 +580,7 @@
       <div class="solution-num">04</div>
       <div class="solution-main">
         <div class="solution-name">Internal Knowledge &amp; Team Assistants</div>
-        <p class="solution-desc">Private AI systems that give teams instant access to internal documents, policies, SOPs, and institutional knowledge — without exposing data to public AI tools.</p>
+        <p class="solution-desc">Private AI systems that give teams instant access to internal documents, policies, SOPs, and institutional knowledge, without exposing data to public AI tools.</p>
         <div style="margin-top:16px;">
           <div class="sol-col-label">What we build</div>
           <ul class="sol-build-list">
@@ -577,7 +612,7 @@
       <div class="solution-num">05</div>
       <div class="solution-main">
         <div class="solution-name">Workflow Automation</div>
-        <p class="solution-desc">AI that handles the repetitive coordination, approval, summarization, and routing work that slows down teams — end-to-end, not just one step.</p>
+        <p class="solution-desc">AI that handles the repetitive coordination, approval, summarization, and routing work that slows down teams, end-to-end.</p>
         <div style="margin-top:16px;">
           <div class="sol-col-label">What we build</div>
           <ul class="sol-build-list">
@@ -609,7 +644,7 @@
       <div class="solution-num">06</div>
       <div class="solution-main">
         <div class="solution-name">Voice-Led Journeys</div>
-        <p class="solution-desc">Some journeys work better on calls than on forms. AI phone agents for support, reminders, recovery, qualification, and interviews — with proprietary low-latency voice capability where it matters.</p>
+        <p class="solution-desc">Some journeys work better on calls than on forms. AI phone agents for support, reminders, recovery, qualification, and interviews, with proprietary low-latency voice capability where it matters.</p>
         <div style="margin-top:16px;">
           <div class="sol-col-label">What we build</div>
           <ul class="sol-build-list">
@@ -623,7 +658,7 @@
       </div>
       <div class="solution-problem">
         <div class="sol-col-label">The Problem</div>
-        <p class="sol-problem-text">Forms get ignored. Emails go unread. Some users — especially in support, recovery, and qualification — respond far better to a real-feeling phone call.</p>
+        <p class="sol-problem-text">Forms get ignored. Emails go unread. Some users — especially in support, recovery, and qualification, respond far better to a real-feeling phone call.</p>
       </div>
       <div class="solution-examples">
         <div class="sol-col-label">Examples</div>
@@ -688,7 +723,7 @@
       </div>
       <div class="solution-problem">
         <div class="sol-col-label">The Problem</div>
-        <p class="sol-problem-text">One-size-fits-all learning doesn't work. Learners need timely, specific guidance — not just content. Human capacity can't scale to individual needs.</p>
+        <p class="sol-problem-text">One-size-fits-all learning doesn't work. Learners need timely, specific guidance, not just content. Human capacity can't scale to individual needs.</p>
       </div>
       <div class="solution-examples">
         <div class="sol-col-label">Examples</div>
@@ -705,7 +740,7 @@
 
   <!-- Cross-link to Services -->
   <div class="cross-link">
-    <p><strong>Looking for the technical side?</strong> The Services page covers what we actually build — custom AI systems, voice AI, multi-agent workflows, private AI, and more.</p>
+    <p><strong>Looking for the technical side?</strong> The Services page covers what we actually build: custom AI systems, voice AI, multi-agent workflows, private AI, and more.</p>
     <a href="/services">See Services →</a>
   </div>
 
@@ -809,6 +844,19 @@
       ? 'rgba(246,243,236,0.97)'
       : 'rgba(246,243,236,0.92)';
   });
+
+  const accToggle = document.getElementById("mobileAccToggle");
+  const accBody = document.getElementById("mobileAccBody");
+  if (accToggle) {
+    accToggle.addEventListener("click", () => {
+      const open = accBody.classList.toggle("open");
+      accToggle.classList.toggle("open", open);
+    });
+  }
+  document.querySelectorAll(".mobile-acc-link").forEach(a => a.addEventListener("click", () => {
+    mobileMenu.classList.remove("open");
+    document.body.style.overflow = "";
+  }));
 </script>
 </body>
 </html>
