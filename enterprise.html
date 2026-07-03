@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Enterprise Platform Agents — Fuchr.ai</title>
-  <meta name="description" content="Custom AI agents built on Salesforce, ServiceNow, Workday, and SAP. Not the out-of-the-box defaults — agents scoped to your workflows, your data, your edge cases.">
+  <title>Enterprise Platform Agents Fuchr.ai</title>
+  <meta name="description" content="Custom AI agents built on Salesforce, ServiceNow, Workday, and SAP. Not the out-of-the-box defaults agents scoped to your workflows, your data, your edge cases.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -33,7 +33,7 @@
   body:has(a:hover) #cursor-ring { width: 50px; height: 50px; border-color: rgba(184,68,44,0.4); }
 
   /* NAV */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 68px; background: rgba(246,243,236,0.92); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 68px; background: rgba(246,243,236,0.92); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); overflow: visible; }
   .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 10px; }
   .nav-logo-dot { width: 28px; height: 16px; border-radius: 100px; background: var(--accent); flex-shrink: 0; }
   .nav-links { display: flex; align-items: center; gap: 36px; }
@@ -60,6 +60,8 @@
   .dropdown-divider { grid-column: 1 / -1; border: none; border-top: 1px solid var(--border); margin: 4px 0; }
 
   /* BURGER */
+  .mobile-menu { display: none; }
+  .mobile-menu.open { display: flex; }
   .burger { display: none; background: none; border: none; padding: 12px 8px 8px; cursor: none; flex-direction: column; gap: 5px; }
   .burger span { display: block; width: 22px; height: 1.5px; background: var(--ink); transition: transform 0.3s, opacity 0.3s; }
 
@@ -139,7 +141,9 @@
     .footer-inner { padding: 48px 24px; grid-template-columns: 1fr 1fr; }
     .footer-bottom { padding: 20px 24px; }
     .nav-links { display: none; }
-    .burger { display: flex; }
+    .mobile-menu { display: none; }
+  .mobile-menu.open { display: flex; }
+  .burger { display: flex; }
     .dropdown-menu { display: none; }
   }
 
@@ -158,7 +162,7 @@
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 
-<!-- NAV — shared component, same as index/solutions -->
+<!-- NAV shared component, same as index/solutions -->
 <nav aria-label="Main navigation">
   <a href="/" class="nav-logo">
     <div class="nav-logo-dot"></div>
@@ -239,7 +243,7 @@
 <section class="page-hero">
   <div class="page-eyebrow">Enterprise Platform Agents</div>
   <h1>Your enterprise stack already has AI. <em>Most of it is sitting unused.</em></h1>
-  <p class="page-hero-sub">Salesforce, ServiceNow, Workday, and SAP all ship native agent-building tools. The defaults handle generic scenarios. We build the custom agents that actually fit your workflows, your data, and your edge cases — on the platform you already pay for.</p>
+  <p class="page-hero-sub">Salesforce, ServiceNow, Workday, and SAP all ship native agent-building tools. The defaults handle generic scenarios. We build the custom agents that actually fit your workflows, your data, and your edge cases on the platform you already pay for.</p>
 </section>
 
 <!-- PLATFORM TABS -->
@@ -262,15 +266,15 @@
       </svg>
     </div>
     <div>
-      <div class="platform-title">Salesforce — Agentforce</div>
-      <div class="platform-tagline">Your CRM is where your sales, service, and customer data live. Agentforce lets you build AI agents that act on that data — but the defaults only cover generic scenarios.</div>
+      <div class="platform-title">Salesforce Agentforce</div>
+      <div class="platform-tagline">Your CRM is where your sales, service, and customer data live. Agentforce lets you build AI agents that act on that data but the defaults only cover generic scenarios.</div>
     </div>
   </div>
   <div class="platform-body">
     <div class="platform-context">
       <div class="platform-context-label">What the defaults don't do</div>
       <p>Salesforce ships templates that look good in demos. They work on clean, fictional data with no real business logic. Your org has <strong>messy data, custom objects, specific approval chains, and policies the template has never seen.</strong></p>
-      <p>We design and build custom subagents, actions, and data retrieval on your actual Salesforce org — connected to your real Knowledge base, your order/case systems, and your specific escalation rules.</p>
+      <p>We design and build custom subagents, actions, and data retrieval on your actual Salesforce org connected to your real Knowledge base, your order/case systems, and your specific escalation rules.</p>
     </div>
     <div class="usecase-list">
       <div class="usecase-item">
@@ -281,12 +285,12 @@
       <div class="usecase-item">
         <div class="usecase-label">Custom agent</div>
         <div class="usecase-title">Pre-call sales intelligence agent</div>
-        <div class="usecase-desc">Before a rep dials, the agent pulls the contact's full activity history, open cases, product usage, and competitor mentions from your CRM — surfaces a structured brief, not raw records.</div>
+        <div class="usecase-desc">Before a rep dials, the agent pulls the contact's full activity history, open cases, product usage, and competitor mentions from your CRM surfaces a structured brief, not raw records.</div>
       </div>
       <div class="usecase-item">
         <div class="usecase-label">Custom agent</div>
         <div class="usecase-title">Advisor meeting prep agent</div>
-        <div class="usecase-desc">For financial services or B2B teams — processes CRM data and recent activity into a structured client briefing before every meeting, automatically. No manual note assembly.</div>
+        <div class="usecase-desc">For financial services or B2B teams processes CRM data and recent activity into a structured client briefing before every meeting, automatically. No manual note assembly.</div>
       </div>
     </div>
   </div>
@@ -303,26 +307,26 @@
       </svg>
     </div>
     <div>
-      <div class="platform-title">ServiceNow — AI Agent Studio</div>
+      <div class="platform-title">ServiceNow AI Agent Studio</div>
       <div class="platform-tagline">ServiceNow runs IT, HR, and customer service workflows for 85%+ of Fortune 500 companies. Now Assist handles the generic. Custom agents handle the specific.</div>
     </div>
   </div>
   <div class="platform-body">
     <div class="platform-context">
       <div class="platform-context-label">What the defaults don't do</div>
-      <p>ServiceNow's out-of-the-box Now Assist skills summarize incidents and suggest KB articles. Useful — but <strong>your IT team's workflows, approval chains, CMDBs, and escalation rules are all custom.</strong> The generic agent doesn't know any of that.</p>
-      <p>We build agents in AI Agent Studio that understand your specific org structure, your incident classification logic, and your actual knowledge base — not a demo dataset.</p>
+      <p>ServiceNow's out-of-the-box Now Assist skills summarize incidents and suggest KB articles. Useful but <strong>your IT team's workflows, approval chains, CMDBs, and escalation rules are all custom.</strong> The generic agent doesn't know any of that.</p>
+      <p>We build agents in AI Agent Studio that understand your specific org structure, your incident classification logic, and your actual knowledge base not a demo dataset.</p>
     </div>
     <div class="usecase-list">
       <div class="usecase-item">
         <div class="usecase-label">Custom agent</div>
         <div class="usecase-title">IT incident triage &amp; resolution agent</div>
-        <div class="usecase-desc">Reads incoming tickets, cross-references your CMDB and known-error database, auto-resolves L1 issues, and routes the rest to the right team with full context — not just category tags.</div>
+        <div class="usecase-desc">Reads incoming tickets, cross-references your CMDB and known-error database, auto-resolves L1 issues, and routes the rest to the right team with full context not just category tags.</div>
       </div>
       <div class="usecase-item">
         <div class="usecase-label">Custom agent</div>
         <div class="usecase-title">Employee onboarding agent</div>
-        <div class="usecase-desc">Answers new hire questions from your actual HR policies and benefit plans — not generic text. Guides them through your specific onboarding checklist, submits access requests, and tracks completion.</div>
+        <div class="usecase-desc">Answers new hire questions from your actual HR policies and benefit plans not generic text. Guides them through your specific onboarding checklist, submits access requests, and tracks completion.</div>
       </div>
       <div class="usecase-item">
         <div class="usecase-label">Custom agent</div>
@@ -344,31 +348,31 @@
       </svg>
     </div>
     <div>
-      <div class="platform-title">Workday — Illuminate</div>
+      <div class="platform-title">Workday Illuminate</div>
       <div class="platform-tagline">Workday runs HR and Finance for 65%+ of Fortune 500 companies. Illuminate ships pre-built agents for common tasks. Your org's specific policies, approval rules, and data structures are not in the default.</div>
     </div>
   </div>
   <div class="platform-body">
     <div class="platform-context">
       <div class="platform-context-label">What the defaults don't do</div>
-      <p>Workday's built-in agents handle standard HR tasks well. But <strong>your leave policy tiers, bonus calculation rules, approval hierarchies, and custom reporting fields are specific to your implementation</strong> — and the default agents don't know them.</p>
-      <p>We configure and extend Illuminate agents to understand your company's actual HR and Finance logic — the same data your HR BPs and Finance controllers work with daily.</p>
+      <p>Workday's built-in agents handle standard HR tasks well. But <strong>your leave policy tiers, bonus calculation rules, approval hierarchies, and custom reporting fields are specific to your implementation</strong> and the default agents don't know them.</p>
+      <p>We configure and extend Illuminate agents to understand your company's actual HR and Finance logic the same data your HR BPs and Finance controllers work with daily.</p>
     </div>
     <div class="usecase-list">
       <div class="usecase-item">
         <div class="usecase-label">Custom agent</div>
         <div class="usecase-title">Policy-aware leave &amp; benefits agent</div>
-        <div class="usecase-desc">Answers employee queries about their specific leave balance, entitlements, and benefit elections — not a generic policy FAQ. Pulls from the employee's actual Workday record and your company's leave policy tiers.</div>
+        <div class="usecase-desc">Answers employee queries about their specific leave balance, entitlements, and benefit elections not a generic policy FAQ. Pulls from the employee's actual Workday record and your company's leave policy tiers.</div>
       </div>
       <div class="usecase-item">
         <div class="usecase-label">Custom agent</div>
         <div class="usecase-title">Finance reconciliation agent</div>
-        <div class="usecase-desc">Reads daily bank statements against your general ledger, flags mismatches, and generates a reconciliation summary — reducing manual cash positioning work for your finance team by hours per day.</div>
+        <div class="usecase-desc">Reads daily bank statements against your general ledger, flags mismatches, and generates a reconciliation summary reducing manual cash positioning work for your finance team by hours per day.</div>
       </div>
       <div class="usecase-item">
         <div class="usecase-label">Custom agent</div>
         <div class="usecase-title">Payroll exception agent</div>
-        <div class="usecase-desc">Before payroll runs, the agent scans for anomalies — new hires missing tax forms, terminated employees still active, unusual hours — and flags them with context, not just a raw exception report.</div>
+        <div class="usecase-desc">Before payroll runs, the agent scans for anomalies new hires missing tax forms, terminated employees still active, unusual hours and flags them with context, not just a raw exception report.</div>
       </div>
     </div>
   </div>
@@ -385,31 +389,31 @@
       </svg>
     </div>
     <div>
-      <div class="platform-title">SAP — Joule Studio</div>
-      <div class="platform-tagline">SAP runs procurement, supply chain, and finance for the world's largest companies. Joule Studio lets partners build custom AI agents on S/4HANA — but the real value is in your company-specific business logic.</div>
+      <div class="platform-title">SAP Joule Studio</div>
+      <div class="platform-tagline">SAP runs procurement, supply chain, and finance for the world's largest companies. Joule Studio lets partners build custom AI agents on S/4HANA but the real value is in your company-specific business logic.</div>
     </div>
   </div>
   <div class="platform-body">
     <div class="platform-context">
       <div class="platform-context-label">What the defaults don't do</div>
-      <p>SAP's standard Joule agents handle common ERP queries. But most SAP environments are <strong>heavily customized — with bespoke tables, Z-programs, and approval workflows specific to your industry and org structure.</strong> The default agent doesn't touch any of that.</p>
-      <p>We build Joule Studio agents that understand your SAP customizations, your procurement rules, and your specific reporting requirements — not just the standard ERP data model.</p>
+      <p>SAP's standard Joule agents handle common ERP queries. But most SAP environments are <strong>heavily customized with bespoke tables, Z-programs, and approval workflows specific to your industry and org structure.</strong> The default agent doesn't touch any of that.</p>
+      <p>We build Joule Studio agents that understand your SAP customizations, your procurement rules, and your specific reporting requirements not just the standard ERP data model.</p>
     </div>
     <div class="usecase-list">
       <div class="usecase-item">
         <div class="usecase-label">Custom agent</div>
         <div class="usecase-title">Procurement bid analysis agent</div>
-        <div class="usecase-desc">Reads supplier bids against your procurement criteria — unit price, lead time, payment terms, vendor rating — and generates a structured comparison with a recommended shortlist, not a raw data dump.</div>
+        <div class="usecase-desc">Reads supplier bids against your procurement criteria unit price, lead time, payment terms, vendor rating and generates a structured comparison with a recommended shortlist, not a raw data dump.</div>
       </div>
       <div class="usecase-item">
         <div class="usecase-label">Custom agent</div>
         <div class="usecase-title">Invoice dispute resolution agent</div>
-        <div class="usecase-desc">Matches incoming invoices against purchase orders, flags mismatches by root cause category, and initiates resolution workflows — compressing dispute cycles from weeks to hours.</div>
+        <div class="usecase-desc">Matches incoming invoices against purchase orders, flags mismatches by root cause category, and initiates resolution workflows compressing dispute cycles from weeks to hours.</div>
       </div>
       <div class="usecase-item">
         <div class="usecase-label">Custom agent</div>
         <div class="usecase-title">Maintenance stock availability agent</div>
-        <div class="usecase-desc">When a maintenance request is raised, the agent checks real-time stock levels across your warehouses, identifies nearest available parts, and pre-stages the replenishment order — before the technician asks.</div>
+        <div class="usecase-desc">When a maintenance request is raised, the agent checks real-time stock levels across your warehouses, identifies nearest available parts, and pre-stages the replenishment order before the technician asks.</div>
       </div>
     </div>
   </div>
