@@ -147,15 +147,17 @@
     .dropdown-menu { display: none; }
   }
 
-  .mobile-accordion-toggle { background: none; border: none; font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--muted); padding: 10px 24px; letter-spacing: -0.02em; transition: color 0.2s; cursor: none; display: flex; align-items: center; justify-content: space-between; width: 100%; }
+  .mobile-accordion-toggle { background: none; border: none; font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--muted); padding: 10px 24px; letter-spacing: -0.02em; transition: color 0.2s; cursor: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; }
   .mobile-accordion-toggle:hover { color: var(--ink); }
   .mobile-accordion-toggle .acc-arrow { font-size: 14px; transition: transform 0.25s; }
   .mobile-accordion-toggle.open .acc-arrow { transform: rotate(180deg); }
-  .mobile-accordion-body { display: none; flex-direction: column; width: 100%; padding: 0 24px 8px; gap: 2px; }
+  .mobile-accordion-body { display: none; flex-direction: column; width: 100%; padding: 0 24px 8px; gap: 2px; align-items: center; text-align: center; }
   .mobile-accordion-body.open { display: flex; }
   .mobile-acc-section { font-family: var(--font-mono); font-size: 10px; color: var(--muted2); letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 0 4px; }
   .mobile-acc-link { font-size: 15px; color: var(--muted); text-decoration: none; padding: 7px 0; transition: color 0.2s; cursor: none; }
   .mobile-acc-link:hover { color: var(--ink); }
+  .mobile-menu .mobile-acc-link { font-size: 15px; font-weight: 500; padding: 7px 0; }
+  .mobile-menu .mobile-acc-section { font-size: 10px; padding: 10px 0 4px; }
 </style>
 </head>
 <body>
